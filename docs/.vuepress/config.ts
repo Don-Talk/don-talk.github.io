@@ -4,7 +4,7 @@ import { hopeTheme } from "vuepress-theme-hope";
 
 export default defineUserConfig({
   // 网站基础配置
-  base: "/",
+  base: "/dontalk.github.io/",
   lang: "zh-CN",
   title: "DonTalk 的个人博客",
   description: "Java 程序员的技术归档笔记，涵盖 Java 核心、数据库、微服务、分布式系统等全栈技术",
