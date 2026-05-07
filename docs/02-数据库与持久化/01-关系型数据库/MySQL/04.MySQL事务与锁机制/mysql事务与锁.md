@@ -53,7 +53,7 @@
 - 即使数据库发生故障也不应该对其有任何影响
 - 通过**Redo Log(重做日志)**实现
 
-<img src="assets/image-acid-properties.png" alt="ACID特性示意图" />
+<!-- TODO: 添加ACID特性示意图 -->
 
 ---
 
@@ -837,7 +837,7 @@ InnoDB通过以下三个组件实现MVCC:
 - 事务启动时生成的快照
 - 包含当前活跃事务列表
 
-<img src="assets/image-mvcc-version-chain.png" alt="MVCC版本链示意图" />
+<!-- TODO: 添加MVCC版本链示意图 -->
 
 ### 7.3 ReadView的可见性判断
 
