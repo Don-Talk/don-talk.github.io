@@ -43,7 +43,7 @@
 
 ```cmd
 mvn install
-```text
+```
 
 注意事项：
 
@@ -68,7 +68,7 @@ mvn install
         <version>5.2.10.RELEASE</version>
     </dependency>
 </dependencies>
-```text
+```
 
 ### 1. 依赖传递
 
@@ -99,7 +99,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
     <!--可选依赖是隐藏当前工程所依赖的资源，隐藏后对应资源将不具有依赖传递性-->
     <optional>false</optional>
 </dependency>
-```text
+```
 
 
 
@@ -129,7 +129,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
         </exclusion>
     </exclusions>
 </dependency>
-```text
+```
 
 ### 4 可选依赖和排除依赖的区别
 
@@ -161,7 +161,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
 
 ```xml
 <packaging>pom</packaging>
-```text
+```
 
 注意事项：
 
@@ -175,7 +175,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
     <module>../maven_pojo</module>
     <module>../maven_dao</module>
 </modules>
-```text
+```
 
 注意事项：
 
@@ -202,7 +202,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
 
 ```xml
 <packaging>pom</packaging>
-```text
+```
 
 注意事项：
 
@@ -219,7 +219,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
     </dependency>
     ……
 </dependencies>
-```text
+```
 
 #### 4.3 配置子工程中可选的依赖关系
 
@@ -234,7 +234,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
         ……
     </dependencies>
 </dependencyManagement>
-```text
+```
 
 #### 4.3 在子工程中配置当前工程所继承的父工程
 
@@ -247,7 +247,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
     <!--填写父工程的pom文件，根据实际情况填写-->
     <relativePath>../maven_parent/pom.xml</relativePath>
 </parent>
-```text
+```
 
 #### 4.5 在子工程中配置使用父工程中可选依赖的坐标
 
@@ -258,7 +258,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
         <artifactId>druid</artifactId>
     </dependency>
 </dependencies>
-```text
+```
 
 注意事项：
 
@@ -305,7 +305,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
     <spring.version>5.2.10.RELEASE</spring.version>
     <junit.version>4.12</junit.version>
 </properties>
-```text
+```
 
 ##### ②：引用属性
 
@@ -315,7 +315,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
     <artifactId>spring-context</artifactId>
     <version>${spring.version}</version>
 </dependency>
-```text
+```
 
 
 
@@ -330,7 +330,7 @@ A依赖B，B依赖C，如果A不想将C依赖进来，是否可以做到？
     <junit.version>4.12</junit.version>
     <jdbc.url>jdbc:mysql://127.0.0.1:3306/ssm_db</jdbc.url>
 </properties>
-```text
+```
 
 ##### ②：配置文件中引用属性
 
@@ -339,7 +339,7 @@ jdbc.driver=com.mysql.jdbc.Driver
 jdbc.url=${jdbc.url}
 jdbc.username=root
 jdbc.password=root
-```text
+```
 
 ##### ③：开启资源文件目录加载属性的过滤器
 
@@ -352,7 +352,7 @@ jdbc.password=root
         </resource>
     </resources>
 </build>
-```text
+```
 
 ##### ④：配置maven打war包时，忽略web.xml检查
 
@@ -365,7 +365,7 @@ jdbc.password=root
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </configuration>
 </plugin>
-```text
+```
 
 #### 1.3 其他属性（了解）
 
@@ -439,7 +439,7 @@ jdbc.password=root
         ……
     </profile>
 </profiles>
-```text
+```
 
 #### 2.2 使用多环境（构建过程）
 
@@ -449,7 +449,7 @@ mvn 指令 –P 环境定义id
 
 【范例】：
 mvn install –P pro_env
-```text
+```
 
 ### 2. 跳过测试（了解）
 
@@ -490,7 +490,7 @@ mvn install –P pro_env
         </excludes>
     </configuration>
 </plugin>
-```text
+```
 
 
 
@@ -556,7 +556,7 @@ mvn install –P pro_env
     <mirrorOf>*</mirrorOf>
     <url>http://localhost:8081/repository/maven-public/</url>
 </mirror>
-```text
+```
 
 【第二步】在nexus中设置允许匿名下载，如果不允许将不会从私服中下载依赖
 
@@ -577,7 +577,7 @@ mvn install –P pro_env
   <username>admin</username>
   <password>123456</password><!--填写自己nexus设定的登录秘密-->
 </server>
-```text
+```
 
 【第一步】配置当前项目访问私服上传资源的保存位置（项目的pom.xml文件中配置）
 
@@ -596,7 +596,7 @@ mvn install –P pro_env
         <url>http://localhost:8081/repository/heima-snapshots/</url>
     </snapshotRepository>
 </distributionManagement>
-```text
+```
 
 **==注意：要和maven的settings.xml中server中定义的\<id>heima-nexus\</id>对应==**
 
