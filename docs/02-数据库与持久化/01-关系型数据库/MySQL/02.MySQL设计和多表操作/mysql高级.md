@@ -214,7 +214,7 @@ CREATE TABLE emp (
     salary DOUBLE(7,2),  -- 工资，非空
     bonus DOUBLE(7,2)  -- 奖金，如果没有将近默认为0
 );
-```text
+```
 
 上面一定给出了具体的要求，我们可以根据要求创建这张表，并为每一列添加对应的约束。建表语句如下：
 
@@ -229,19 +229,19 @@ CREATE TABLE emp (
   salary DOUBLE(7,2) NOT NULL , -- 工资，非空
   bonus DOUBLE(7,2) DEFAULT 0 -- 奖金，如果没有奖金默认为0
 );
-```text
+```
 
 通过上面语句可以创建带有约束的 `emp` 表，约束能不能发挥作用呢。接下来我们一一进行验证，先添加一条没有问题的数据
 
 ```sql
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(1,'张三','1999-11-11',8800,5000);
-```text
+```
 
 * **验证主键约束，非空且唯一**
 
 ```sql
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(null,'张三','1999-11-11',8800,5000);
-```text
+```
 
 执行结果如下：
 
@@ -251,7 +251,7 @@ INSERT INTO emp(id,ename,joindate,salary,bonus) values(null,'张三','1999-11-11
 
 ```sql
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(1,'张三','1999-11-11',8800,5000);
-```text
+```
 
 执行结果如下：
 
@@ -261,7 +261,7 @@ INSERT INTO emp(id,ename,joindate,salary,bonus) values(1,'张三','1999-11-11',8
 
 ```sql
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(2,'李四','1999-11-11',8800,5000);
-```text
+```
 
 执行结果如下：
 
@@ -271,7 +271,7 @@ INSERT INTO emp(id,ename,joindate,salary,bonus) values(2,'李四','1999-11-11',8
 
 ```sql
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(3,null,'1999-11-11',8800,5000);
-```text
+```
 
 执行结果如下：
 
@@ -283,7 +283,7 @@ INSERT INTO emp(id,ename,joindate,salary,bonus) values(3,null,'1999-11-11',8800,
 
 ```sql
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(3,'李四','1999-11-11',8800,5000);
-```text
+```
 
 执行结果如下：
 
@@ -295,7 +295,7 @@ INSERT INTO emp(id,ename,joindate,salary,bonus) values(3,'李四','1999-11-11',8
 
 ```sql
 INSERT INTO emp(id,ename,joindate,salary) values(3,'王五','1999-11-11',8800);
-```text
+```
 
 执行完上面语句后查询表中数据，如下图可以看到王五这条数据的bonus列就有了默认值0。
 
@@ -307,7 +307,7 @@ INSERT INTO emp(id,ename,joindate,salary) values(3,'王五','1999-11-11',8800);
 
 ```sql
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(4,'赵六','1999-11-11',8800,null);
-```text
+```
 
 执行完上面语句后查询表中数据，如下图可以看到赵六这条数据的bonus列的值是null。
 
@@ -326,7 +326,7 @@ CREATE TABLE emp (
   salary DOUBLE(7,2) NOT NULL , -- 工资，非空
   bonus DOUBLE(7,2) DEFAULT 0 -- 奖金，如果没有奖金默认为0
 );
-```text
+```
 
 接下来给emp添加数据，分别验证不给id列添加值以及给id列添加null值，id列的值会不会自动增长：
 
@@ -334,7 +334,7 @@ CREATE TABLE emp (
 INSERT INTO emp(ename,joindate,salary,bonus) values('赵六','1999-11-11',8800,null);
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(null,'赵六2','1999-11-11',8800,null);
 INSERT INTO emp(id,ename,joindate,salary,bonus) values(null,'赵六3','1999-11-11',8800,null);
-```text
+```
 
 
 
@@ -365,13 +365,13 @@ CREATE TABLE 表名(
 ```sql
 -- 建完表后添加外键约束
 ALTER TABLE 表名 ADD CONSTRAINT 外键名称 FOREIGN KEY (外键字段名称) REFERENCES 主表名称(主表列名称);
-```text
+```
 
 * 删除外键约束
 
 ```sql
 ALTER TABLE 表名 DROP FOREIGN KEY 外键名称;
-```text
+```
 
 
 
@@ -400,7 +400,7 @@ CREATE TABLE emp(
 	-- 添加外键 dep_id,关联 dept 表的id主键
 	CONSTRAINT fk_emp_dept FOREIGN KEY(dep_id) REFERENCES dept(id)	
 );
-```text
+```
 
 添加数据
 
@@ -417,7 +417,7 @@ INSERT INTO emp (NAME, age, dep_id) VALUES
 ('赵六', 20, 2),
 ('孙七', 22, 2),
 ('周八', 18, 2);
-```text
+```
 
 此时删除 `研发部` 这条数据，会发现无法删除。
 
@@ -425,13 +425,13 @@ INSERT INTO emp (NAME, age, dep_id) VALUES
 
 ```sql
 alter table emp drop FOREIGN key fk_emp_dept;
-```text
+```
 
 重新添加外键
 
 ```sql
 alter table emp add CONSTRAINT fk_emp_dept FOREIGN key(dep_id) REFERENCES dept(id);
-```text
+```
 
 
 
@@ -643,7 +643,7 @@ create table tb_user (
 	-- 添加外键
 	CONSTRAINT fk_user_desc FOREIGN KEY(desc_id) REFERENCES tb_user_desc(id)	
 );
-```text
+```
 
 ​	查看表结构模型图：
 
@@ -706,13 +706,13 @@ DROP TABLE IF EXISTS dept;
 	('白骨精','女',5000,'2015-10-07',3),
 	('蜘蛛精','女',4500,'2011-03-14',1),
 	('小白龙','男',2500,'2011-02-14',null);	
-```text
+```
 
 执行下面的多表查询语句
 
 ```sql
 select * from emp , dept;  -- 从emp和dept表中查询所有的字段数据
-```text
+```
 
 结果如下：
 
@@ -722,7 +722,7 @@ select * from emp , dept;  -- 从emp和dept表中查询所有的字段数据
 
 ```sql
 select * from emp , dept where emp.dep_id = dept.did;
-```text
+```
 
 执行后结果如下：
 
@@ -751,7 +751,7 @@ SELECT 字段列表 FROM 表1,表2… WHERE 条件;
 
 -- 显示内连接
 SELECT 字段列表 FROM 表1 [INNER] JOIN 表2 ON 条件;
-```text
+```
 
 > 内连接相当于查询 A B 交集数据
 
@@ -1012,7 +1012,7 @@ INSERT INTO salarygrade(grade,losalary,hisalary) VALUES
 (3,14010,20000),
 (4,20010,30000),
 (5,30010,99990);
-```text
+```
 
 * 需求
 
