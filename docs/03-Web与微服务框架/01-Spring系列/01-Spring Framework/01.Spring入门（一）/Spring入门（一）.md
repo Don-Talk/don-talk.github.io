@@ -154,7 +154,7 @@
 【第二步】定义Spring管理的类（接口）
 【第三步】创建Spring配置文件，配置对应类作为Spring管理的bean对象
 【第四步】初始化IOC容器（Spring核心容器/Spring容器），通过容器获取bean对象
-```text
+```
 
 #### 1.3 实现代码
 
@@ -169,7 +169,7 @@
         <version>5.2.10.RELEASE</version>
     </dependency>
 </dependencies>
-```text
+```
 
 **【第二步】定义Spring管理的类（接口）**
 
@@ -185,7 +185,7 @@ public class BookDaoImpl implements BookDao {
         System.out.println("book dao save ...");
     }
 }
-```text
+```
 
 - BookService接口和BookServiceImpl实现类
 
@@ -201,7 +201,7 @@ public class BookServiceImpl implements BookService {
         bookDao.save();
     }
 }
-```text
+```
 
 **【第三步】创建Spring配置文件，配置对应类作为Spring管理的bean对象**
 
@@ -221,7 +221,7 @@ public class BookServiceImpl implements BookService {
     <bean id="bookService" class="com.itheima.service.impl.BookServiceImpl"></bean>
 
 </beans>
-```text
+```
 
 **==注意事项：bean定义时id属性在同一个上下文中(IOC容器中)不能重复==**
 
@@ -238,7 +238,7 @@ public class App {
         bookService.save();
     }
 }
-```text
+```
 
 #### 1.4 运行结果
 
@@ -265,7 +265,7 @@ public class App {
 【第一步】删除使用new的形式创建对象的代码
 【第二步】提供依赖对象对应的setter方法
 【第三步】配置service与dao之间的关系
-```text
+```
 
 #### 2.3 实现代码
 
@@ -279,7 +279,7 @@ public class BookServiceImpl implements BookService {
         bookDao.save();
     }
 }
-```text
+```
 
 **【第二步】提供依赖对象对应的setter方法**
 
@@ -295,7 +295,7 @@ public class BookServiceImpl implements BookService {
         this.bookDao = bookDao;
     }
 }
-```text
+```
 
 **【第三步】配置service与dao之间的关系**
 
@@ -322,7 +322,7 @@ public class BookServiceImpl implements BookService {
         <property name="bookDao" ref="bookDao"/>
     </bean>
 </beans>
-```text
+```
 
 #### 2.4 图解演示
 
@@ -417,14 +417,14 @@ public class BookDaoImpl implements BookDao {
         System.out.println("book dao save ...");
     }
 }
-```text
+```
 
 - applicationContext.xml配置
 
 ```xml
 <!--方式一：构造方法实例化bean-->
 <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
-```text
+```
 
 - AppForInstanceBook测试类
 
@@ -438,7 +438,7 @@ public class AppForInstanceBook {
         bookDao.save();
     }
 }
-```text
+```
 
 - 运行结果
 
@@ -459,7 +459,7 @@ public class OrderDaoImpl implements OrderDao {
         System.out.println("order dao save ...");
     }
 }
-```text
+```
 
 - OrderDaoFatory工厂类
 
@@ -471,14 +471,14 @@ public class OrderDaoFactory {
         return new OrderDaoImpl();
     }
 }
-```text
+```
 
 - applicationContext.xml配置
 
 ```xml
 <!--方式二：使用静态工厂实例化bean-->
 <bean id="orderDao" class="com.itheima.factory.OrderDaoFactory" factory-method="getOrderDao"/>
-```text
+```
 
 ![image-20210729195248948](assets/image-20210729195248948.png)
 
@@ -494,7 +494,7 @@ public class AppForInstanceOrder {
         orderDao.save();
     }
 }
-```text
+```
 
 - 运行结果
 
@@ -513,7 +513,7 @@ public class UserDaoImpl implements UserDao {
         System.out.println("user dao save ...");
     }
 }
-```text
+```
 
 - UserDaoFactory工厂类
 
@@ -524,7 +524,7 @@ public class UserDaoFactory {
         return new UserDaoImpl();
     }
 }
-```text
+```
 
 - applicationContext.xml配置
 
@@ -533,7 +533,7 @@ public class UserDaoFactory {
 <bean id="userFactory" class="com.itheima.factory.UserDaoFactory"/>
 
 <bean id="userDao" factory-method="getUserDao" factory-bean="userFactory"/>
-```text
+```
 
 ![image-20210729200203249](assets/image-20210729200203249.png)
 
@@ -552,7 +552,7 @@ public class AppForInstanceUser {
         userDao.save();
     }
 }
-```text
+```
 
 - 运行结果
 
@@ -576,14 +576,14 @@ public class UserDaoFactoryBean implements FactoryBean<UserDao> {
         return UserDao.class;
     }
 }
-```text
+```
 
 - applicationContext.xml配置
 
 ```xml
 <!--方式四：使用FactoryBean实例化bean-->
 <bean id="userDao" class="com.itheima.factory.UserDaoFactoryBean"/>
-```text
+```
 
 > 使用之前的AppForInstanceUser测试类去运行看结果就行了。注意配置文件中id="userDao"是否重复。
 
@@ -625,7 +625,7 @@ public class BookDaoImpl implements BookDao {
         System.out.println("destory...");
     }
 }
-```text
+```
 
 - applicationContext.xml配置
 
@@ -633,7 +633,7 @@ public class BookDaoImpl implements BookDao {
 <!--init-method：设置bean初始化生命周期回调函数,此处填写init方法名-->
 <!--destroy-method：设置bean销毁生命周期回调函数，仅适用于单例对象，此处填写destory方法名-->
 <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl" init-method="init" destroy-method="destory"/>
-```text
+```
 
 - 测试类
 
@@ -648,7 +648,7 @@ public class AppForLifeCycle {
         ctx.close();
     }
 }
-```text
+```
 
 #### 2.2 Bean生命周期控制
 
@@ -672,7 +672,7 @@ public class BookServiceImpl implements BookService, InitializingBean, Disposabl
         System.out.println("service init");
     }
 }
-```text
+```
 
 > 测试类代码同《3.2.1 Bean生命周期控制》中的测试代码
 
@@ -701,7 +701,7 @@ public class AppForLifeCycle {
         //ctx.close();
     }
 }
-```text
+```
 
 
 
@@ -789,7 +789,7 @@ setter方式注入使用什么子标签？
 ```xml
 <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
 <bean id="bookService" class="com.itheima.service.impl.BookServiceImpl" autowire="byType"/>
-```text
+```
 
 ##### 依赖自动装配特征
 
@@ -812,7 +812,7 @@ setter方式注入使用什么子标签？
         <value>300</value>
     </array>
 </property>
-```text
+```
 
 #### 3.2 注入List类型数据
 
@@ -825,7 +825,7 @@ setter方式注入使用什么子标签？
         <value>chuanzhihui</value>
     </list>
 </property>
-```text
+```
 
 #### 3.3 注入Set类型数据
 
@@ -838,7 +838,7 @@ setter方式注入使用什么子标签？
         <value>boxuegu</value>
     </set>
 </property>
-```text
+```
 
 #### 3.4 注入Map类型数据
 
@@ -850,7 +850,7 @@ setter方式注入使用什么子标签？
         <entry key="city" value="kaifeng"/>
     </map>
 </property>
-```text
+```
 
 #### 3.5 注入Properties类型数据
 
@@ -862,6 +862,6 @@ setter方式注入使用什么子标签？
         <prop key="city">kaifeng</prop>
     </props>
 </property>
-```text
+```
 
 > 说明：property标签表示setter方式注入，构造方式注入constructor-arg标签内部也可以写\<array>、\<list>、\<set>、\<map>、\<props>标签

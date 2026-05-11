@@ -32,7 +32,7 @@ create table if not exists tbl_account(
 );
 insert into tbl_account values(null,'Tom',1000);
 insert into tbl_account values(null,'Jerry',1000);
-```text
+```
 
 **【第一步】添加Druid连接池依赖**
 
@@ -47,7 +47,7 @@ insert into tbl_account values(null,'Jerry',1000);
     <artifactId>mysql-connector-java</artifactId>
     <version>5.1.47</version>
 </dependency>
-```text
+```
 
 > 注意：除了添加以上两个依赖之外，别忘了添加spring-context依赖。
 
@@ -60,7 +60,7 @@ insert into tbl_account values(null,'Jerry',1000);
     <property name="username" value="root"/>
     <property name="password" value="root"/>
 </bean>
-```text
+```
 
 **【第三步】在测试类中从IOC容器中获取连接池对象并打印**
 
@@ -72,7 +72,7 @@ public class App {
         System.out.println(dataSource);
     }
 }
-```text
+```
 
 #### 1.2 管理c3p0连接池
 
@@ -84,7 +84,7 @@ public class App {
     <artifactId>c3p0</artifactId>
     <version>0.9.1.2</version>
 </dependency>
-```text
+```
 
 **【第二步】配置c3p0连接池Bean对象**
 
@@ -96,7 +96,7 @@ public class App {
     <property name="password" value="root"/>
     <property name="maxPoolSize" value="1000"/>
 </bean>
-```text
+```
 
 > 注意：同一个Spring容器中不能有两个id="dataSource"的连接池。
 
@@ -110,7 +110,7 @@ public class App {
         System.out.println(dataSource);
     }
 }
-```text
+```
 
 
 
@@ -133,7 +133,7 @@ jdbc.driver=com.mysql.jdbc.Driver
 jdbc.url=jdbc:mysql://127.0.0.1:3306/spring_db
 jdbc.username=root
 jdbc.password=root
-```text
+```
 
 **【第二步】在applicationContext.xml中开启开启context命名空间，加载jdbc.properties属性文件**
 
@@ -145,7 +145,7 @@ jdbc.password=root
 
 ```xml
 <context:property-placeholder location="jdbc.properties"/>
-```text
+```
 
 **【第三步】在配置连接池Bean的地方使用EL表达式获取jdbc.properties属性文件中的值**
 
@@ -156,7 +156,7 @@ jdbc.password=root
     <property name="username" value="${jdbc.username}"/>
     <property name="password" value="${jdbc.password}"/>
 </bean>
-```text
+```
 
 > 配置完成之后，运行之前的获取Druid连接池代码，可以获取到连接池对象就表示配置成功。
 
@@ -180,7 +180,7 @@ jdbc.password=root
 
 ```properties
 <context:property-placeholder location="jdbc.properties" system-properties-mode="NEVER"/>
-```text
+```
 
 
 
@@ -190,24 +190,24 @@ jdbc.password=root
 
 ```xml
 <context:property-placeholder location="jdbc.properties" system-properties-mode="NEVER"/>
-```text
+```
 
 - 加载多个properties文件
 ```xml
 <context:property-placeholder location="jdbc.properties,msg.properties"/>
-```text
+```
 - 加载所有properties文件
 ```xml
 <context:property-placeholder location="*.properties"/>
-```text
+```
 - 加载properties文件**==标准格式==**
 ```xml
 <context:property-placeholder location="classpath:*.properties"/>
-```text
+```
 - 加载properties文件标准格式
 ```xml
 <context:property-placeholder location="classpath*:*.properties"/>
-```text
+```
 
 
 
@@ -225,19 +225,19 @@ jdbc.password=root
 
 ```java
 ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-```text
+```
 
 - 方式二：文件路径加载配置文件
 
 ```java
 ApplicationContext ctx = new FileSystemXmlApplicationContext("D:\\applicationContext.xml");
-```text
+```
 
 - 加载多个配置文件
 
 ```java
 ApplicationContext ctx = new ClassPathXmlApplicationContext("bean1.xml", "bean2.xml");
-```text
+```
 
 
 
@@ -249,7 +249,7 @@ ApplicationContext ctx = new ClassPathXmlApplicationContext("bean1.xml", "bean2.
 
 ```java
 BookDao bookDao = (BookDao) ctx.getBean("bookDao");
-```text
+```
 
 - **==方式二：使用bean名称获取并指定类型==**
 
@@ -257,7 +257,7 @@ BookDao bookDao = (BookDao) ctx.getBean("bookDao");
 
 ```java
 BookDao bookDao = ctx.getBean("bookDao", BookDao.class);
-```text
+```
 
 - 方式三：使用bean类型获取
 
@@ -265,7 +265,7 @@ BookDao bookDao = ctx.getBean("bookDao", BookDao.class);
 
 ```java
 BookDao bookDao = ctx.getBean(BookDao.class);
-```text
+```
 
 #### 1.3 容器类层次结构
 
@@ -280,7 +280,7 @@ Resource resources = new ClassPathResource("applicationContext.xml");
 BeanFactory bf = new XmlBeanFactory(resources);
 BookDao bookDao = bf.getBean("bookDao", BookDao.class);
 bookDao.save();
-```text
+```
 
 - BeanFactory创建完毕后，所有的Bean均为延迟加载，也就是说我们调用getBean()方法获取Bean对象时才创建Bean对象并返回给我们
 
@@ -334,7 +334,7 @@ bookDao.save();
 	 <!--扫描com.itheima包及其子包下的类中注解-->
     <context:component-scan base-package="com.itheima"/>
 </beans>
-```text
+```
 
 **【第二步】在类上使用@Component注解定义Bean。**
 
@@ -359,7 +359,7 @@ public class BookServiceImpl implements BookService {
         bookDao.save();
     }
 }
-```text
+```
 
 > 补充说明：如果@Component注解没有使用参数指定Bean的名称，那么类名首字母小写就是Bean在IOC容器中的默认名称。例如：BookServiceImpl对象在IOC容器中的名称是bookServiceImpl。
 
@@ -376,7 +376,7 @@ public class AppForAnnotation {
         System.out.println(bookService);
     }
 }
-```text
+```
 
 > 注意：在测试类中不要调用bookService的save方法，因为还没有给BookServiceImpl中的bookDao赋值，调用bookService的save方法会出现空指针异常。
 
@@ -402,7 +402,7 @@ public class BookDaoImpl implements BookDao {
 public class BookServiceImpl implements BookService {
 }
 
-```text
+```
 
 
 
@@ -426,7 +426,7 @@ public class BookServiceImpl implements BookService {
 
 ```java
 @ComponentScan({com.itheima.service","com.itheima.dao"})
-```text
+```
 
 - 读取Spring核心配置文件初始化容器对象切换为读取Java配置类初始化容器对象
 
@@ -435,7 +435,7 @@ public class BookServiceImpl implements BookService {
 ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
 //加载配置类初始化容器
 ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.class);
-```text
+```
 
 #### 2.2 代码演示
 
@@ -450,7 +450,7 @@ ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.cla
 //@ComponentScan({"com.itheima.service","com.itheima.dao"})
 public class SpringConfig {
 }
-```text
+```
 
 **【第二步】在测试类中加载配置类，获取Bean对象并使用**
 
@@ -466,7 +466,7 @@ public class AppForAnnotation {
         System.out.println(bookService);
     }
 }
-```text
+```
 
 
 
@@ -485,7 +485,7 @@ public class AppForAnnotation {
 @Scope("singleton")
 public class BookDaoImpl implements BookDao {
 }
-```text
+```
 
 #### 3.2 bean生命周期注解配置
 
@@ -507,7 +507,7 @@ public class BookDaoImpl implements BookDao {
         System.out.println("book destory ...");
     }
 }
-```text
+```
 
 ==**注意：@PostConstruct和@PreDestroy注解是jdk中提供的注解，从jdk9开始，jdk中的javax.annotation包被移除了，也就是说这两个注解就用不了了，可以额外导入一下依赖解决这个问题。**==
 
@@ -517,7 +517,7 @@ public class BookDaoImpl implements BookDao {
   <artifactId>javax.annotation-api</artifactId>
   <version>1.3.2</version>
 </dependency>
-```text
+```
 
 
 
@@ -543,7 +543,7 @@ public class BookServiceImpl implements BookService {
         bookDao.save();
     }
 }
-```text
+```
 
 > 说明：不管是使用配置文件还是配置类，都必须进行对应的Spring注解包扫描才可以使用。@Autowired默认按照类型自动装配，如果IOC容器中同类的Bean有多个，那么默认按照变量名和Bean的名称匹配，建议使用@Qualifier注解指定要装配的bean名称
 
@@ -567,7 +567,7 @@ public class BookServiceImpl implements BookService {
         bookDao.save();
     }
 }
-```text
+```
 
 ==注意：@Qualifier注解无法单独使用，必须配合@Autowired注解使用==
 
@@ -584,7 +584,7 @@ public class BookDaoImpl implements BookDao {
         System.out.println("book dao save ..." + name);
     }
 }
-```text
+```
 
 以上@Value注解中使用${name}从属性文件中读取name值，那么就需要在配置类或者配置文件中加载属性文件。
 
@@ -595,7 +595,7 @@ public class BookDaoImpl implements BookDao {
 @PropertySource({"classpath:jdbc.properties"}) //{}可以省略不写
 public class SpringConfig {
 }
-```text
+```
 
 ==注意：@PropertySource()中加载多文件请使用数组格式配置，不允许使用通配符*==
 
@@ -622,7 +622,7 @@ public class JdbcConfig {
         return ds;
     }
 }
-```text
+```
 
 #### **【第二步】将独立的配置类加入核心配置**
 
@@ -635,7 +635,7 @@ public class JdbcConfig {
 @Import({JdbcConfig.class})
 public class SpringConfig {
 }
-```text
+```
 
 ##### 方式2：@ComponentScan扫描式
 
@@ -644,7 +644,7 @@ public class SpringConfig {
 @ComponentScan({"com.itheima.config","com.itheima.service","com.itheima.dao"})  //只要com.itheima.config包扫到了就行，三个包可以合并写成com.itheima
 public class SpringConfig {
 }
-```text
+```
 
 
 
@@ -678,7 +678,7 @@ public class JdbcConfig {
         return ds;
     }
 }
-```text
+```
 
 > 说明：如果@Value()中使用了EL表达式读取properties属性文件中的内容，那么就需要加载properties属性文件。
 
@@ -696,7 +696,7 @@ public DataSource dataSource(BookDao bookDao){
     ds.setPassword(password);
     return ds;
 }
-```text
+```
 
 > 说明：引用类型注入只需要为bean定义方法设置形参即可，容器会根据类型自动装配对象
 
@@ -802,7 +802,7 @@ public interface AccountDao {
     @Select("select * from tbl_account where id = #{id} ")
     Account findById(Integer id);
 }
-```text
+```
 
 ##### **【第一步】导入Spring整合Mybatis依赖**
 
@@ -818,7 +818,7 @@ public interface AccountDao {
     <artifactId>mybatis-spring</artifactId>
     <version>1.3.0</version>
 </dependency>
-```text
+```
 
 ##### **【第二步】创建JdbcConfig配置DataSource数据源**
 
@@ -849,7 +849,7 @@ public class JdbcConfig {
         return ds;
     }
 }
-```text
+```
 
 ##### **【第三步】创建MybatisConfig整合mybatis**
 
@@ -871,7 +871,7 @@ public class MybatisConfig {
         return msc;
     }
 }
-```text
+```
 
 ##### **【第四步】创建SpringConfig主配置类进行包扫描和加载其他配置类**
 
@@ -883,7 +883,7 @@ public class MybatisConfig {
 @Import({JdbcConfig.class,MybatisConfig.class})
 public class SpringConfig {
 }
-```text
+```
 
 ##### **【第五步】定义测试类进行测试**
 
@@ -898,7 +898,7 @@ public class App {
         System.out.println(ac);
     }
 }
-```text
+```
 
 ### 2 Spring整合Junit单元测试【重点】
 
@@ -921,7 +921,7 @@ Spring整合Junit的两个注解作用分别是什么？
   \<artifactId\>spring-test</artifactId>
   \<version\>5.1.9.RELEASE</version>
 </dependency>
-```text
+```
 
 #### 【第二步】使用Spring整合Junit专用的类加载器
 
@@ -948,7 +948,7 @@ public class AccountServiceTest {
         System.out.println(accountService.findAll());
     }
 }
-```text
+```
 
 **==注意：junit的依赖至少要是4.12版本,可以是4.13等版本,否则出现如下异常：==**
 

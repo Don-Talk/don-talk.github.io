@@ -103,7 +103,7 @@
         <version>1.9.4</version>
     </dependency>
 </dependencies>
-```text
+```
 
 ![image-20210730150138448](assets/image-20210730150138448.png)
 
@@ -126,7 +126,7 @@ public class BookDaoImpl implements BookDao {
         System.out.println("book dao update ...");
     }
 }
-```text
+```
 
 ##### 【第三步】定义通知类，制作通知方法
 
@@ -138,7 +138,7 @@ public class MyAdvice {
         System.out.println(System.currentTimeMillis());
     }
 }
-```text
+```
 
 ##### 【第四步】定义切入点表达式、配置切面(绑定切入点与通知关系)
 
@@ -158,7 +158,7 @@ public class MyAdvice {
         System.out.println(System.currentTimeMillis());
     }
 }
-```text
+```
 
 ![image-20210730154740528](assets/image-20210730154740528.png)
 
@@ -171,7 +171,7 @@ public class MyAdvice {
 @EnableAspectJAutoProxy
 public class SpringConfig {
 }
-```text
+```
 
 ##### 测试类和运行结果
 
@@ -183,7 +183,7 @@ public class App {
         bookDao.update();
     }
 }
-```text
+```
 
 ![image-20210730151347354](assets/image-20210730151347354.png)
 
@@ -223,7 +223,7 @@ public class App {
         System.out.println(bookDao.getClass());
     }
 }
-```text
+```
 
 ![image-20210730152631741](assets/image-20210730152631741.png)
 
@@ -278,7 +278,7 @@ public class App {
 
 ```java
 execution（public * com.itheima.*.UserService.find*(*))
-```text
+```
 
 - .. ：多个连续的任意符号，可以独立出现，常用于简化包名与参数的书写
 
@@ -286,13 +286,13 @@ execution（public * com.itheima.*.UserService.find*(*))
 
 ```java
 execution（public User com..UserService.findById(..))
-```text
+```
 
 - +：专用于匹配子类类型
 
 ```java
 execution(* *..*Service+.*(..))
-```text
+```
 
 <!-- 图片缺失：image-20210730153824117.png -->
 
@@ -341,7 +341,7 @@ execution(* *..*Service+.*(..))
 public void before() {
     System.out.println("before advice ...");
 }
-```text
+```
 
 ##### 5.2.2 后置通知
 
@@ -356,7 +356,7 @@ public void before() {
 public void after() {
     System.out.println("after advice ...");
 }
-```text
+```
 
 ##### 5.2.3 返回后通知
 
@@ -371,7 +371,7 @@ public void after() {
 public void afterReturning() {
     System.out.println("afterReturning advice ...");
 }
-```text
+```
 
 ##### 5.2.4 抛出异常后通知
 
@@ -386,7 +386,7 @@ public void afterReturning() {
 public void afterThrowing() {
     System.out.println("afterThrowing advice ...");
 }
-```text
+```
 
 ##### 5.2.5 环绕通知
 
@@ -404,7 +404,7 @@ public Object around(ProceedingJoinPoint pjp) throws Throwable {
     System.out.println("around after advice ...");
     return ret;
 }
-```text
+```
 
 ==**环绕通知注意事项**==
 
@@ -471,7 +471,7 @@ public class ProjectAdvice {
         System.out.println("万次执行："+ className+"."+methodName+"---->" +(end-start) + "ms");
     }
 }
-```text
+```
 
 ##### 【第二步】在SpringConfig配置类上开启AOP注解功能
 
@@ -483,7 +483,7 @@ public class ProjectAdvice {
 @EnableAspectJAutoProxy //开启AOP注解功能
 public class SpringConfig {
 }
-```text
+```
 
 ##### 【第三步】运行测试类，查看结果
 
@@ -502,7 +502,7 @@ public class AccountServiceTestCase {
         List<Account> list = accountService.findAll();
     }
 }
-```text
+```
 
 ![image-20210730164219555](assets/image-20210730164219555.png)
 
@@ -526,7 +526,7 @@ public void before(JoinPoint jp) {
     Object[] args = jp.getArgs(); //获取连接点方法的参数们
     System.out.println(Arrays.toString(args));
 }
-```text
+```
 
 - ProccedJointPoint是JoinPoint的子类
 
@@ -538,7 +538,7 @@ public Object around(ProceedingJoinPoint pjp) throws Throwable {
     Object ret = pjp.proceed();
     return ret;
 }
-```text
+```
 
 #### 2.2 获取返回值
 
@@ -551,7 +551,7 @@ public Object around(ProceedingJoinPoint pjp) throws Throwable {
 public void afterReturning(String ret) { //变量名要和returning="ret"的属性值一致
     System.out.println("afterReturning advice ..."+ret);
 }
-```text
+```
 
 - 环绕通知中可以手工书写对原始方法的调用，得到的结果即为原始方法的返回值
 
@@ -562,7 +562,7 @@ public Object around(ProceedingJoinPoint pjp) throws Throwable {
     Object ret = pjp.proceed();
     return ret;
 }
-```text
+```
 
 #### 2.3 获取异常
 
@@ -575,7 +575,7 @@ public Object around(ProceedingJoinPoint pjp) throws Throwable {
 public void afterThrowing(Throwable t) {//变量名要和throwing = "t"的属性值一致
     System.out.println("afterThrowing advice ..."+ t);
 }
-```text
+```
 
 - 抛出异常后通知可以获取切入点方法运行的异常信息，使用形参可以接收运行时抛出的异常对象
 
@@ -591,7 +591,7 @@ public Object around(ProceedingJoinPoint pjp)  {
     }
     return ret;
 }
-```text
+```
 
 
 
@@ -641,7 +641,7 @@ public class ResourcesDaoImpl implements ResourcesDao {
         return password.equals("root");
     }
 }
-```text
+```
 
 ##### 【第一步】编写通知类
 
@@ -666,7 +666,7 @@ public class DataAdvice {
         return ret;
     }
 }
-```text
+```
 
 ##### 【第二步】在SpringConfig配置类上开启AOP注解功能
 
@@ -676,7 +676,7 @@ public class DataAdvice {
 @EnableAspectJAutoProxy
 public class SpringConfig {
 }
-```text
+```
 
 ##### 【第三步】运行测试类，查看结果
 
@@ -689,7 +689,7 @@ public class App {
         System.out.println(flag);
     }
 }
-```text
+```
 
 ### 4 AOP开发总结
 
@@ -804,7 +804,7 @@ public class AccountServiceImpl implements AccountService {
         accountDao.inMoney(in,money);
     }
 }
-```text
+```
 
 ##### 【第一步】在业务层接口上添加Spring事务管理
 
@@ -814,7 +814,7 @@ public interface AccountService {
     @Transactional
     public void transfer(String out,String in ,Double money) ;
 }
-```text
+```
 
 注意事项
 
@@ -833,7 +833,7 @@ public PlatformTransactionManager transactionManager(DataSource dataSource){
     transactionManager.setDataSource(dataSource);
     return transactionManager;
 }
-```text
+```
 
 注意事项
 
@@ -851,7 +851,7 @@ public PlatformTransactionManager transactionManager(DataSource dataSource){
 @EnableTransactionManagement
 public class SpringConfig {
 }
-```text
+```
 
 ##### 【第四步】运行测试类，查看结果
 
@@ -868,7 +868,7 @@ public class AccountServiceTest {
         accountService.transfer("Tom","Jerry",100D);
     }
 }
-```text
+```
 
 
 
@@ -947,7 +947,7 @@ public interface LogDao {
     @Insert("insert into tbl_log (info,createDate) values(#{info},now())")
     void log(String info);
 }
-```text
+```
 
 ##### 【第一步】在AccountServiceImpl中调用logService中添加日志的方法
 
@@ -970,7 +970,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 }
-```text
+```
 
 ##### 【第二步】在LogService的log()方法上设置事务的传播行为
 
@@ -980,7 +980,7 @@ public interface LogService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     void log(String out, String in, Double money);
 }
-```text
+```
 
 ##### 【第三步】运行测试类，查看结果
 
@@ -996,7 +996,7 @@ public class AccountServiceTest {
         accountService.transfer("Tom","Jerry",50D);
     }
 }
-```text
+```
 
 #### 3.3 事务传播行为
 
