@@ -23,7 +23,7 @@ curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/gpg | sud
  
 # 设置稳定版仓库
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```text
+```
 
 - 使用阿里云源（已选）
 
@@ -34,7 +34,7 @@ curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key a
 # 写入阿里云Docker仓库地址
 sudo sh -c 'echo "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list'
 
-```text
+```
 
 更新源并安装Docker
 
@@ -46,7 +46,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 sudo systemctl status docker
 docker --version
 
-```text
+```
 
 修改docker的`/etc/docker/daemon.json`配置文件，如果在不存在则手动创建，文件内容如下。
 
@@ -77,7 +77,7 @@ sudo systemctl restart docker
 # 查看 Registry Mirrors 配置是否成功
 sudo docker info 
 
-```text
+```
 
 
 
@@ -126,7 +126,7 @@ tree /etc/nginx
 
 
 
-```text
+```
 
 
 
@@ -145,7 +145,7 @@ tree /etc/nginx
 export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
 export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-
+```
 
 
 

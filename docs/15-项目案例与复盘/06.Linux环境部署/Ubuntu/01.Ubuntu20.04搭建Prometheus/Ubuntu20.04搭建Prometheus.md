@@ -10,7 +10,7 @@
 
 promethus的启动、停止：
 
-```text
+```
 /etc/init.d/prometheus start/stop/restart
 ```text
 
@@ -29,5 +29,5 @@ sudo apt-get install daemon
 sudo -u node_exporter_user ./node_exporter --web.listen-address="183.233.197.205:9100" --log.level=info &
 
 sudo -u node_exporter ./node_exporter --web.listen-address="0.0.0.0:9100" --log.level=debug
-
+```
 

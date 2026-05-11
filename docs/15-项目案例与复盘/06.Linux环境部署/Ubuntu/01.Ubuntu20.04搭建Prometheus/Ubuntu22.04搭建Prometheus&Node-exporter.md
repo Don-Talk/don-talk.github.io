@@ -193,7 +193,7 @@ Node Exporter 用于收集服务器的系统指标，Prometheus 会通过 HTTP �
 
 ```bash
 sudo vim /etc/systemd/system/node_exporter.service
-```text
+```
 
 写入以下内容：
 
@@ -212,7 +212,7 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
-```text
+```
 
 **2.重新加载 systemd 并启动 Node Exporter**
  启用并启动 Node Exporter 服务：
@@ -221,14 +221,14 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reload
 sudo systemctl start node_exporter
 sudo systemctl enable node_exporter
-```text
+```
 
 **3.验证 Node Exporter 运行状态**
  检查 Node Exporter 是否正常运行：
 
 ```bash
 sudo systemctl status node_exporter
-```text
+```
 
 如果服务正常运行，输出中会显示 active (running)。
 
@@ -237,7 +237,7 @@ sudo systemctl status node_exporter
 
 ```bash
 curl http://localhost:9100/metrics
-```text
+```
 
 
 
@@ -248,7 +248,7 @@ curl http://localhost:9100/metrics
 
 ```bash
 sudo vim /etc/prometheus/prometheus.yml
-```text
+```
 
 在 scrape_configs 部分添加以下内容：
 
@@ -262,7 +262,7 @@ scrape_configs:
     scrape_interval: 15s
     static_configs:
       - targets: ['localhost:9100']
-```text
+```
 
 - job_name: 'node_exporter' 定义了一个新的任务，命名为 node_exporter。
 - targets: ['localhost:9100'] 指定了 Node Exporter 的地址和端口。
@@ -272,13 +272,13 @@ scrape_configs:
 
 ```bash
 curl -X POST http://localhost:9090/-/reload
-```text
+```
 
 如果 --web.enable-lifecycle 标志未启用，可以重启 Prometheus：
 
 ```bash
 sudo systemctl restart prometheus
-```text
+```
 
 **3.验证 Prometheus 拉取数据**
  再次访问 Prometheus Web 界面：

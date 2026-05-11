@@ -10,7 +10,7 @@
 
 ```shell
 wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
-```text
+```
 
 
 
@@ -22,7 +22,7 @@ wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
 
 ```shell
 tar -zxvf jdk-17_linux-x64_bin.tar.gz
-```text
+```
 
 ### 3.配置环境
 
@@ -42,7 +42,7 @@ source /etc/profile
 
 #查看结果
 java -version
-```text
+```
 
 
 
@@ -74,31 +74,31 @@ java -version
 
 ```shell
 sudo yum install epel-release
-```text
+```
 
 2.安装 Redis：
 
 ```shell
 sudo yum install redis
-```text
+```
 
 3.启动 Redis 服务：
 
 ```shell
 sudo systemctl start redis
-```text
+```
 
 4.如果你想让 Redis 在启动时自动运行，你可以启用它：
 
 ```shell
 sudo systemctl enable redis
-```text
+```
 
 5.检查 Redis 是否正在运行：
 
 ```shell
 sudo systemctl status redis
-```text
+```
 
 6.修改端口
 
@@ -109,7 +109,7 @@ sudo vim /etc/redis.conf
 
 #将这个改成你想要的端口
 port 26379
-```text
+```
 
 7.修改密码
 
@@ -117,7 +117,7 @@ port 26379
 
 ```shell
 requirepass yournewpassword：
-```text
+```
 
 8.修改允许外网访问
 
@@ -125,7 +125,7 @@ requirepass yournewpassword：
 
 ```shell
 bind 0.0.0.0
-```text
+```
 
 9.重启Redis
 

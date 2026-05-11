@@ -30,7 +30,7 @@ nohup java -jar xxx.jar >temp.log &
 ```shell
 ps aux|grep xxx.jar
 ps -ef | grep java
-```text
+```
 
 将会看到此jar的进程信息：
 root 2373 0.9 15.8 2575356 296448 pts/0 Sl+ 16:28 1:18 java -jar erp-0.5.1.2.jar
@@ -55,7 +55,7 @@ kill -9 8080
 ps -aux | grep java
 
 kill -s 9 24204
-```text
+```
 
 
 
@@ -71,19 +71,19 @@ free -m
 
 # 以MB为单位来展示内存使用信息
 free -h
-```text
+```
 
 ### 2.查看/proc/meminfo
 
 ```shell
 cat /proc/meminfo
-```text
+```
 
 ### 3.使用vmstat命令
 
 ```shell
 vmstat -s
-```text
+```
 
 ### 4.使用top命令
 
@@ -91,7 +91,7 @@ vmstat -s
 # CentOS
 top -o %MEM
 top -o %CPU
-```text
+```
 
 ### 5.htop命令
 
@@ -102,7 +102,7 @@ top -o %CPU
 yum install htop -y
 
 htop -o %MEM
-```text
+```
 
 
 
@@ -174,7 +174,7 @@ sudo ufw deny 8000/tcp
 sudo ufw enable 8000/tcp
 
 sudo ufw disable 8000/tcp
-```text
+```
 
 
 
