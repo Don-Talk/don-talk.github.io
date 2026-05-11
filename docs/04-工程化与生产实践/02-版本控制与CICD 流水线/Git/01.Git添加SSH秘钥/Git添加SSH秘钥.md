@@ -10,7 +10,7 @@
 $ git config --global user.name "用户名"
 
 $ git config --global user.email "用户邮箱"
-```text
+```
 
 
 
@@ -21,7 +21,7 @@ $ git config --global user.email "用户邮箱"
 ```sh
 $ cd ~/.ssh    //进入指定路径文件夹
 $ ls           //查看文件夹下内容
-```text
+```
 
 看一下有没有 `id\_rsa` 和 `id_rsa.pub` 等文件，`.pub` 文件是公钥，另一个文件是密钥
 
@@ -29,7 +29,7 @@ $ ls           //查看文件夹下内容
 
 ```sh
 $ ssh-keygen -t rsa -C "你的邮箱"
-```text
+```
 
 如有提示信息，点击 `enter` 即可，不需要设置密码！ 难道你想在每次提交代码前输入一遍密码吗？
 
@@ -38,7 +38,7 @@ $ ssh-keygen -t rsa -C "你的邮箱"
 ```sh
 Your public key has been saved in /home/you/.ssh/id_rsa.pub.
 The key fingerprint is: 
-```text
+```
 
 
 
@@ -50,13 +50,13 @@ The key fingerprint is:
 
 ```sh
 $ cat ~/.ssh/id_rsa.pub
-```text
+```
 
 例如：
 
 ```sh
 ssh-rsa your secret email@email.com
-```text
+```
 
 
 
@@ -75,13 +75,13 @@ ssh-rsa your secret email@email.com
 ```sh
 $ ssh -T git@github.com
 Attempts to ssh to github
-```text
+```
 
 如果，看到如下信息提示
 
 ```sh
 Hi xxx! You've successfully authenticated, but GitHub does not # provide shell access.
-
+```
 
 
 

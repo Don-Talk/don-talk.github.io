@@ -26,7 +26,7 @@ systemctl restart nginx
 
 # 6.重新加载nginx配置
 nginx -s reload
-```text
+```
 
 
 
@@ -85,7 +85,7 @@ http {
         }
     }
 }
-```text
+```
 
 
 

@@ -19,7 +19,7 @@ yum remove docker \
     docker-latest-logrotate \
     docker-logrotate \
     docker-engine
-```text
+```
 
 ## 1.2.配置Docker的yum库
 
@@ -29,19 +29,19 @@ yum remove docker \
 # CentOS
 yum install -y yum-utils
 
-```text
+```
 
 安装成功后，执行命令，配置Docker的yum源：
 
 ```Bash
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-```text
+```
 
 或者使用阿里源(推荐)
 
 ```text
 yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-```text
+```
 
 
 
@@ -51,7 +51,7 @@ yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/d
 
 ```Bash
 yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-```text
+```
 
 ## 1.4.启动和校验
 
@@ -70,7 +70,7 @@ systemctl enable docker
 
 # 执行docker ps命令，如果不报错，说明安装启动成功
 docker ps
-```text
+```
 
 ## 1.5.配置镜像加速
 
@@ -126,7 +126,7 @@ systemctl daemon-reload
 
 # 重启Docker
 systemctl restart docker
-```text
+```
 
 
 
@@ -152,7 +152,7 @@ docker run -d \
   -e TZ=Asia/Shanghai \
   -e MYSQL_ROOT_PASSWORD=Password@3306 \
   mysql:8.0.27
-```text
+```
 
 运行效果如图：
 
@@ -211,7 +211,7 @@ docker run -d \
   -e TZ=Asia/Shanghai \
   -e MYSQL_ROOT_PASSWORD=123 \
   mysql
-```text
+```
 
 > 解读：
 >
@@ -282,7 +282,7 @@ systemctl enable docker
 
 # Docker容器开机自启
 docker update --restart=always [容器名/容器id]
-```text
+```
 
 ### 3.1.2.演示
 
@@ -335,7 +335,7 @@ docker exec -it mysql mysql -uroot -p
 docker rm nginx
 # 发现无法删除，因为容器运行中，强制删除容器
 docker rm -f nginx
-```text
+```
 
 ### 3.1.3.命令别名
 
@@ -360,13 +360,13 @@ alias dis='docker images'
 if [ -f /etc/bashrc ]; then
         . /etc/bashrc
 fi
-```text
+```
 
 然后，执行命令使别名生效
 
 ```PowerShell
 source /root/.bashrc
-```text
+```
 
 接下来，试试看新的命令吧。
 
@@ -471,7 +471,7 @@ vi index.html
 
 # 7.进入容器内部，查看/usr/share/nginx/html目录内的文件是否变化
 docker exec -it nginx bash
-```text
+```
 
 教学**演示环节**：演示一下MySQL的匿名数据卷
 
@@ -479,7 +479,7 @@ docker exec -it nginx bash
 # 1.查看MySQL容器详细信息
 docker inspect mysql
 # 关注其中.Config.Volumes部分和.Mounts部分
-```text
+```
 
 我们关注两部分内容，第一是`.Config.Volumes`部分：
 
@@ -493,7 +493,7 @@ docker inspect mysql
     // ... 略
   }
 }
-```text
+```
 
 可以发现这个容器声明了一个本地目录，需要挂载数据卷，但是**数据卷未定义**。这就是匿名卷。
 
@@ -511,7 +511,7 @@ docker inspect mysql
     }
   ]
 }
-```text
+```
 
 可以发现，其中有几个关键属性：
 
@@ -525,7 +525,7 @@ docker inspect mysql
 
 ```Bash
 ls -l /var/lib/docker/volumes/29524ff09715d3688eae3f99803a2796558dbd00ca584a25a4bbc193ca82459f/_data
-```text
+```
 
 注意：每一个不同的镜像，将来创建容器后内部有哪些目录可以挂载，可以参考DockerHub对应的页面
 
@@ -538,7 +538,7 @@ ls -l /var/lib/docker/volumes/29524ff09715d3688eae3f99803a2796558dbd00ca584a25a4
 -v 本地目录:容器内目录
 # 挂载本地文件
 -v 本地文件:容器内文件
-```text
+```
 
 **注意**：本地目录或文件必须以 `/` 或 `./`开头，如果直接以名字开头，会被识别为数据卷名而非本地目录名。
 
@@ -547,7 +547,7 @@ ls -l /var/lib/docker/volumes/29524ff09715d3688eae3f99803a2796558dbd00ca584a25a4
 ```Bash
 -v mysql:/var/lib/mysql # 会被识别为一个数据卷叫mysql，运行时会自动创建这个数据卷
 -v ./mysql:/var/lib/mysql # 会被识别为当前目录下的mysql目录，运行时如果不存在会创建目录
-```text
+```
 
 **教学演示**，删除并重新创建mysql容器，并完成本地目录挂载：
 
@@ -662,7 +662,7 @@ show tables;
 | 63 |       1 | 广东     | 佛山   | 永春      | 13301212233 | 永春武馆       | 李晓龙    | 0          | NULL  |
 +----+---------+----------+--------+----------+-------------+---------------+-----------+------------+-------+
 4 rows in set (0.00 sec)
-```text
+```
 
 ## 3.3.镜像
 
@@ -741,7 +741,7 @@ ENV PATH=$PATH:$JAVA_HOME/bin
 EXPOSE 8080
 # 入口，java项目的启动命令
 ENTRYPOINT ["java", "-jar", "/app.jar"]
-```text
+```
 
 同学们思考一下：以后我们会有很多很多java项目需要打包为镜像，他们都需要Linux系统环境、JDK环境这两层，只有上面的3层不同（因为jar包不同）。如果每次制作java镜像都重复制作前两层镜像，是不是很麻烦。
 
@@ -757,7 +757,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY docker-demo.jar /app.jar
 # 入口
 ENTRYPOINT ["java", "-jar", "/app.jar"]
-```text
+```
 
 是不是简单多了。
 
@@ -780,7 +780,7 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 cd /root/demo
 # 开始构建
 docker build -t docker-demo:1.0 .
-```text
+```
 
 命令说明：
 
@@ -806,7 +806,7 @@ REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
 docker-demo   1.0       d6ab0b9e64b9   27 minutes ago   327MB
 nginx         latest    605c77e624dd   16 months ago    141MB
 mysql         latest    3218b38490ce   17 months ago    516MB
-```text
+```
 
 然后尝试运行该镜像：
 
@@ -824,7 +824,7 @@ f63cfead8502   mysql             0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 3306
 curl localhost:8080/hello/count
 # 结果：
 \<h5\>欢迎访问黑马商城, 这是您第1次访问\<h5\>
-```text
+```
 
 ## 3.4.网络
 
@@ -850,7 +850,7 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.053 ms
 64 bytes from 172.17.0.2: icmp_seq=2 ttl=64 time=0.059 ms
 64 bytes from 172.17.0.2: icmp_seq=3 ttl=64 time=0.058 ms
-```text
+```
 
 发现可以互联，没有问题。
 
@@ -910,7 +910,7 @@ ping mysql
 PING mysql (172.18.0.2) 56(84) bytes of data.
 64 bytes from mysql.hmall (172.18.0.2): icmp_seq=1 ttl=64 time=0.044 ms
 64 bytes from mysql.hmall (172.18.0.2): icmp_seq=2 ttl=64 time=0.054 ms
-```text
+```
 
 OK，现在无需记住IP地址也可以实现容器互联了。
 
@@ -944,7 +944,7 @@ OK，现在无需记住IP地址也可以实现容器互联了。
 
 ```Bash
 docker rm -f nginx dd
-```text
+```
 
 mysql容器中已经准备好了商城的数据，所以就不再删除了。
 
@@ -999,7 +999,7 @@ mysql         latest    3218b38490ce   17 months ago    516MB
 
 # 3.创建并运行容器，并通过--network将其加入hmall网络，这样才能通过容器名访问mysql
 docker run -d --name hmall --network hmall -p 8080:8080 hmall
-```text
+```
 
 测试，通过浏览器访问：http://你的虚拟机地址:8080/search/list
 
@@ -1039,7 +1039,7 @@ docker run -d \
   -v /root/nginx/nginx.conf:/etc/nginx/nginx.conf \
   --network hmall \
   nginx
-```text
+```
 
 测试，通过浏览器访问：http://你的虚拟机ip:18080
 
@@ -1076,7 +1076,7 @@ docker run -d \
   -v ./mysql/init:/docker-entrypoint-initdb.d \
   --network hmall
   mysql
-```text
+```
 
 如果用`docker-compose.yml`文件来定义，就是这样：
 
@@ -1100,7 +1100,7 @@ services:
 networks:
   new:
     name: hmall
-```text
+```
 
 对比如下：
 
@@ -1161,7 +1161,7 @@ services:
 networks:
   hm-net:
     name: hmall
-```text
+```
 
 ### 4.3.2.基础命令
 
@@ -1173,7 +1173,7 @@ https://docs.docker.com/compose/reference/
 
 ```Bash
 docker compose [OPTIONS] [COMMAND]
-```text
+```
 
 其中，OPTIONS和COMMAND都是可选参数，比较常见的有：
 
@@ -1245,7 +1245,7 @@ NAME                IMAGE               COMMAND                  SERVICE        
 hmall               root-hmall          "java -jar /app.jar"     hmall               54 seconds ago      Up 52 seconds       0.0.0.0:8080->8080/tcp, :::8080->8080/tcp
 mysql               mysql               "docker-entrypoint.s…"   mysql               54 seconds ago      Up 53 seconds       0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp
 nginx               nginx               "/docker-entrypoint.…"   nginx               54 seconds ago      Up 52 seconds       80/tcp, 0.0.0.0:18080-18081->18080-18081/tcp, :::18080-18081->18080-18081/tcp
-```text
+```
 
 打开浏览器，访问：http://yourIp:8080
 
@@ -1270,7 +1270,7 @@ docker run --name dc-redis-6.2.7 -p 6388:6379 -d redis:6.2.7 redis-server --requ
 # 110 device cloud test
 docker run --name redis-device-cloud-test -p 6388:6379 -d redis:latest redis-server --requirepass Test@Device@2024
 
-```text
+```
 
 
 
@@ -1284,7 +1284,7 @@ docker run --name redis-device-cloud-test -p 6388:6379 -d redis:latest redis-ser
 docker pull docker.elastic.co/elasticsearch/elasticsearch:7.15.2
 
 docker run -d --name docker-container-elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.15.2
-```text
+```
 
 
 
@@ -1294,7 +1294,7 @@ docker run -d --name docker-container-elasticsearch -p 9200:9200 -p 9300:9300 -e
 docker pull docker.elastic.co/kibana/kibana:7.15.2
 
 
-```text
+```
 
 
 
@@ -1336,7 +1336,7 @@ db.createUser(
     roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
   }
 )
-```text
+```
 
 
 
@@ -1373,7 +1373,7 @@ docker run -d --name navidrome --restart=unless-stopped -v /opt/docker/navidrome
 
 
 
-```text
+```
 
 
 
@@ -1387,7 +1387,7 @@ docker pull xhongc/music_tag_web:latest
 docker run -d --name docker-container-musictagweb --restart=unless-stopped -p 8001:8001 -v D:/04.SDK/Docker/Volumes/music_tag_web/app/media:/app/media -v D:/04.SDK/Docker/Volumes/music_tag_web/app/data:/app/data  xhongc/music_tag_web:latest
 
 
-```text
+```
 
 
 
@@ -1437,7 +1437,7 @@ gitlab_rails['gitlab_shell_ssh_port'] = 8861
   gitlab/gitlab-ce
   
 
-```text
+```
 
 
 
@@ -1464,7 +1464,7 @@ chmod 777 /var/jenkins_mount
 #　　--name myjenkins 给容器起一个别名
 　　
 docker run -d -p 10240:8080 -p 10241:50000 -v /var/jenkins_mount:/var/jenkins_home -v /etc/localtime:/etc/localtime --name myjenkins jenkins/jenkins
-```text
+```
 
 
 
@@ -1487,7 +1487,7 @@ docker run -p 9000:9000 -p 9090:9090 \
      
  docker run -d --name dc-minio  -p 9000:9000 -p 9090:9090    --net=host   --restart=always      -e "MINIO_ACCESS_KEY=minioadmin"      -e "MINIO_SECRET_KEY=minioadmin"      -v D:/04.SDK/Docker/Volumes/Minio/data:/data      -v D:/04.SDK/Docker/Volumes/Minio/config:/root/.minio      minio/minio server      /data --console-address ":9090" -address ":9000"
 
-```text
+```
 
 
 
@@ -1525,7 +1525,7 @@ docker run -d --name emqx-device-cloud -p 8080:1883 -p 8083:8083 -p 8084:8084 -p
 >>>>>>> 6545ee732ef08e8a510c5575a78e310122bb4b33
 
 
-```text
+```
 
 
 
@@ -1589,7 +1589,7 @@ docker run -d \
   mysql:8.0.27
   
   docker run -d --name watch-test-mysql -p 3317:3306 -e TZ=Asia/Shanghai -e MYSQL_ROOT_PASSWORD=Watch@2025@Test -v /opt/docker/mysql_watch_test/data:/var/lib/mysql -v /opt/docker/mysql_watch_test/conf:/etc/mysql/conf.d -v /opt/docker/mysql_watch_test/init:/docker-entrypoint-initdb.d mysql:8.0.27
-```text
+```
 
 
 
@@ -1616,7 +1616,7 @@ docker start emqx-device-cloud
 Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:1883 -> 0.0.0.0:0: listen tcp 0.0.0.0:1883: bind: An attempt was made to access a socket in a way forbidden by its access permissions.
 Error: failed to start containers: emqx-device-cloud
 
-```text
+```
 
 解决方案：
 
@@ -1626,7 +1626,7 @@ https://blog.csdn.net/weixin_45967584/article/details/137023261
 # 重启NAT网络就可以解决了，以管理员身份运行windows powershell执行下面两条命令：
 net stop winnat
 net start winnat
-```text
+```
 
 
 
@@ -1639,7 +1639,7 @@ net start winnat
 docker cp nginx:/etc/nginx/nginx.conf /docker/nginx
 # 复制名称为 nginx 容器中 /etc/nginx/conf.d 文件到宿主机的 /docker/nginx 路径下
 docker cp nginx:/etc/nginx/conf.d /docker/nginx
-
+```
 
 
 
