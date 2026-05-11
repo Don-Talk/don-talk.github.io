@@ -209,7 +209,7 @@ optional 表示该属性是否允许为 null，默认为 true
 
  
 
-```
+```java
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp //org.hibernate.annotations.CreationTimestamp，用于在JPA执行insert操作时自动更新该字段值
