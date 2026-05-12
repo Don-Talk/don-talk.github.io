@@ -10,6 +10,311 @@
 
 ---
 
+## 功能模块说明
+
+本工具包含 **8个核心功能模块**，覆盖日志优化的全流程：
+
+### 📊 1. 日志问题扫描器 (LogIssueScanner)
+**功能：** 扫描Java源代码，识别不规范的日志写法
+
+**检测能力：**
+- ✅ 字符串拼接日志（性能问题）
+- ✅ 堆栈信息滥用（日志量过大）
+- ✅ printStackTrace使用（不规范）
+- ✅ 循环内打印日志（日志膨胀）
+- ✅ 大对象打印（内存和性能问题）
+
+**适用场景：** 代码审查、CI/CD集成、定期质量检查
+
+---
+
+### 📈 2. 日志文件分析器 (LogFileAnalyzer)
+**功能：** 分析现有日志文件的体积和分布情况
+
+**分析维度：**
+- 📁 日志文件总数和总大小
+- 🏆 Top 20最大日志文件
+- 📦 按模块统计日志量占比
+- 📅 文件修改时间分布
+
+**适用场景：** 找出日志量最大的模块，针对性优化
+
+---
+
+### ⚙️ 3. 配置检查器 (LogConfigChecker)
+**功能：** 检查logback.xml/log4j2.xml配置文件
+
+**检查项：**
+- 🔍 Root日志级别是否过高（DEBUG/TRACE）
+- 🔍 框架包（Spring、MyBatis）是否开启DEBUG
+- 🔍 是否使用异步Appender
+- 🔍 日志滚动策略是否合理
+
+**适用场景：** 生产环境配置审查、配置优化
+
+---
+
+### 🛠️ 4. 批量修复工具 (BatchLogFixer)
+**功能：** 自动修复常见的日志问题
+
+**修复能力：**
+- 🔧 字符串拼接 → 参数化日志
+- 🔧 printStackTrace → log.error()
+- 🔧 业务异常堆栈 → 仅记录消息
+- 🔧 自动创建备份，支持预览模式
+
+**适用场景：** 批量修复历史代码问题
+
+**⚠️ 注意：** 使用前务必备份代码，建议先用预览模式确认
+
+---
+
+### ⏰ 5. 定时任务检测器 (ScheduledTaskDetector) ⭐核心功能
+**功能：** 专门检测定时任务中的日志问题（财务系统日志过多的主要原因）
+
+**检测内容：**
+- 🕒 所有@Scheduled注解的定时任务
+- 📊 每个任务的执行频率和日志数量
+- 💰 预估每日产生的日志量
+- ⚠️ 循环内日志、堆栈打印等问题
+
+**输出报告：**
+- 按预估日志量排序的任务列表
+- 针对性的优化建议
+
+**适用场景：** 高频定时任务优化、日志量源头治理
+
+---
+
+### 🚀 6. 增量扫描器 (IncrementalScanner)
+**功能：** 只扫描变更的文件，提高扫描效率
+
+**工作原理：**
+- 💾 使用MD5缓存文件哈希
+- 🔄 对比缓存，只扫描变更文件
+- 📝 自动管理缓存文件
+
+**性能提升：**
+- 首次扫描：全量扫描
+- 后续扫描：速度提升80%+
+
+**适用场景：** CI/CD集成、日常代码检查
+
+---
+
+### 📄 7. 报告生成器 (ReportGenerator)
+**功能：** 支持多种格式的报告输出
+
+**支持格式：**
+- 📃 TXT格式：详细文本报告
+- 🌐 HTML格式：美观的网页报告
+- 📋 JSON格式：便于程序处理
+
+**适用场景：** 团队分享、归档记录、自动化处理
+
+---
+
+### 📝 8. 白名单配置
+**功能：** 排除不需要扫描的文件或目录
+
+**典型用途：**
+- 排除测试代码（test/**）
+- 排除生成代码（target/**、build/**）
+- 排除第三方库（vendor/**、lib/**）
+- 排除特定包
+
+**适用场景：** 提高扫描效率，聚焦业务代码
+
+---
+
+## 功能使用说明
+
+### 快速开始
+
+#### 步骤1：编译打包
+
+```bash
+# 进入项目目录
+cd log-refactor-tool
+
+# 使用Maven编译打包
+mvn clean package
+
+# 生成的jar包位于 target/log-refactor-tool-1.0.0.jar
+```
+
+#### 步骤2：基本使用
+
+```bash
+# 查看所有可用命令
+java -jar target/log-refactor-tool-1.0.0.jar
+
+# 输出：
+# 用法:
+#   java -jar log-refactor-tool.jar <命令> [参数]
+#
+# 命令:
+#   scan <项目根目录>              - 扫描Java代码中的日志问题
+#   analyze <日志目录>              - 分析日志文件分布
+#   check <配置文件路径>            - 检查日志配置文件
+#   fix <项目根目录> [--apply]      - 批量修复日志问题
+#   detect-scheduled <项目根目录>   - 检测定时任务日志问题
+#   scan-incremental <项目根目录>   - 增量扫描（只扫描变更文件）
+```
+
+---
+
+### 详细使用指南
+
+#### 1️⃣ 扫描代码问题
+
+**基本扫描：**
+```bash
+java -jar log-refactor-tool-1.0.0.jar scan D:/Codes/My/finance-project
+```
+
+**多线程扫描（推荐，速度快）：**
+```bash
+java -jar log-refactor-tool-1.0.0.jar scan D:/Codes/My/finance-project --threads 4
+```
+
+**生成JSON报告：**
+```bash
+java -jar log-refactor-tool-1.0.0.jar scan D:/Codes/My/finance-project --format json
+```
+
+**生成HTML报告：**
+```bash
+java -jar log-refactor-tool-1.0.0.jar scan D:/Codes/My/finance-project --format html
+```
+
+**输出文件：** `log_issues_report.txt` / `log_issues_report.json` / `log_issues_report.html`
+
+---
+
+#### 2️⃣ 分析日志文件
+
+```bash
+java -jar log-refactor-tool-1.0.0.jar analyze D:/logs/finance
+```
+
+**输出文件：** `log_analysis_report.txt`
+
+**报告内容：**
+- 日志文件总数和总大小
+- Top 20最大日志文件
+- 各模块日志量占比
+
+---
+
+#### 3️⃣ 检查配置文件
+
+```bash
+java -jar log-refactor-tool-1.0.0.jar check src/main/resources/logback.xml
+```
+
+**输出文件：** `config_check_report.txt`
+
+**检查内容：**
+- Root日志级别
+- 框架包日志级别
+- 异步Appender配置
+
+---
+
+#### 4️⃣ 检测定时任务 ⭐重点推荐
+
+```bash
+java -jar log-refactor-tool-1.0.0.jar detect-scheduled D:/Codes/My/finance-project
+```
+
+**输出文件：** `scheduled_tasks_report.txt`
+
+**报告内容：**
+- 所有定时任务列表（按预估日志量排序）
+- 每个任务的执行频率
+- 每次执行产生的日志数
+- 预估每日日志总量
+- 存在的问题（循环日志、堆栈打印等）
+- 优化建议
+
+---
+
+#### 5️⃣ 批量修复（谨慎使用）
+
+**预览模式（不会修改文件）：**
+```bash
+java -jar log-refactor-tool-1.0.0.jar fix D:/Codes/My/finance-project
+```
+
+**实际修复模式（会自动创建备份）：**
+```bash
+java -jar log-refactor-tool-1.0.0.jar fix D:/Codes/My/finance-project --apply
+```
+
+**输出文件：** `fix_report.txt`
+
+**修复内容：**
+- 字符串拼接改为参数化日志
+- printStackTrace改为log.error()
+- 业务异常堆栈改为仅记录消息
+
+**⚠️ 重要提示：**
+1. 务必先用预览模式确认修复内容
+2. 实际修复会自动创建备份目录
+3. 修复后需要人工审查关键代码
+4. 必须在测试环境验证后再上线
+
+---
+
+#### 6️⃣ 增量扫描
+
+```bash
+java -jar log-refactor-tool-1.0.0.jar scan-incremental D:/Codes/My/finance-project
+```
+
+**特点：**
+- 首次扫描：全量扫描并建立缓存
+- 后续扫描：只扫描变更的文件
+- 缓存文件：`.log-scan-cache.properties`
+
+**适用场景：**
+- CI/CD流水线中每次构建时检查
+- 日常开发中的代码质量检查
+- 大型项目的快速扫描
+
+---
+
+### 白名单配置
+
+在项目根目录创建 `config/whitelist.txt` 文件：
+
+```
+# 白名单配置 - 每行一个路径模式
+# 支持通配符 * 和 **
+
+# 排除测试代码
+test/**
+src/test/**
+
+# 排除生成的代码
+target/**
+gen/**
+build/**
+
+# 排除第三方库
+vendor/**
+lib/**
+
+# 排除特定包
+com/example/generated/**
+com/example/thirdparty/**
+```
+
+**注意：** 白名单在扫描时自动生效，无需额外参数
+
+---
+
 ## 项目结构
 
 ```
@@ -19,7 +324,12 @@ log-refactor-tool/
 │   ├── LogFileAnalyzer.java        # 日志文件分析器
 │   ├── LogConfigChecker.java       # 配置检查器
 │   ├── BatchLogFixer.java          # 批量修复工具
+│   ├── ScheduledTaskDetector.java  # 定时任务检测器（新增）
+│   ├── IncrementalScanner.java     # 增量扫描器（新增）
+│   ├── ReportGenerator.java        # 报告生成器（新增）
 │   └── Main.java                   # 主入口
+├── config/
+│   └── whitelist.txt               # 白名单配置（新增）
 ├── pom.xml                         # Maven配置
 └── README.md
 ```
@@ -48,7 +358,12 @@ log-refactor-tool/
     </properties>
 
     <dependencies>
-        <!-- 无需额外依赖，使用JDK标准库 -->
+        <!-- JSON处理（可选，用于生成JSON报告） -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+        </dependency>
     </dependencies>
 
     <build>
