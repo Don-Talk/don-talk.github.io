@@ -364,6 +364,18 @@ log-refactor-tool/
             <artifactId>gson</artifactId>
             <version>2.8.9</version>
         </dependency>
+        
+        <!-- Excel处理（用于生成Excel报告） -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -727,10 +739,11 @@ public class LogFileAnalyzer {
             
             for (int i = 0; i < topFiles.size(); i++) {
                 FileInfo info = topFiles.get(i);
+                String timeStr = sdf.format(info.modifiedTime);
                 writer.printf("%-6d%-15s%-25s%s%n",
                     i + 1,
                     formatSize(info.sizeBytes),
-                    sdf.format(info.modifiedTime),
+                    timeStr,
                     info.path.toString());
             }
             
@@ -787,7 +800,6 @@ public class LogFileAnalyzer {
         long totalSize;
     }
 }
-```
 
 ---
 
