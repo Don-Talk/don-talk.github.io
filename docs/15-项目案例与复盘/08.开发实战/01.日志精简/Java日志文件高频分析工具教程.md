@@ -144,13 +144,19 @@ public class LogParser {
     private static final DateTimeFormatter DATE_FORMAT = 
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     
-    // 常见日志格式正则
+    // 常见日志格式正则（适配带 MDC 字段的 log4j2 格式）
+    // 格式示例: 2024-05-12 10:30:45.123 traceId reqId PtxId path vname main INFO c.f.S - message
     private static final Pattern LOG_PATTERN = Pattern.compile(
-        "(\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}\\.\\d{3})\\s+" +
-        "\\[([^\\]]+)\\]\\s+" +
-        "(DEBUG|INFO|WARN|ERROR)\\s+" +
-        "([\\w.$]+)\\s+-\\s+" +
-        "(.*)"
+        "(\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}\\.\\d{3})\\s+" + // 时间
+        "(\\S+)\\s+" +      // traceId
+        "(\\S+)\\s+" +      // reqId
+        "(\\S+)\\s+" +      // PtxId
+        "(\\S+)\\s+" +      // path
+        "(\\S+)\\s+" +      // vname
+        "(\\S+)\\s+" +      // 线程名 (%t)
+        "(DEBUG|INFO|WARN|ERROR)\\s+" + // 级别
+        "([\\w.$]+)\\s+-\\s+" + // Logger (%logger{1.})
+        "(.*)"              // 消息
     );
     
     /**
@@ -187,10 +193,11 @@ public class LogParser {
         
         LogEntry entry = new LogEntry();
         entry.timestamp = LocalDateTime.parse(matcher.group(1), DATE_FORMAT);
-        entry.thread = matcher.group(2);
-        entry.level = matcher.group(3);
-        entry.className = matcher.group(4);
-        entry.message = matcher.group(5);
+        // 注意：由于增加了 MDC 字段，分组索引发生了变化
+        entry.thread = matcher.group(7); 
+        entry.level = matcher.group(8);
+        entry.className = matcher.group(9);
+        entry.message = matcher.group(10);
         entry.template = extractTemplate(entry.message);
         
         return entry;
