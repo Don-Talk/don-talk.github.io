@@ -80,17 +80,42 @@ log-file-analyzer/
 
     <build>
         <plugins>
+            <!-- 编译插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            
+            <!-- 打包插件 - 生成包含依赖的可执行jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <mainClass>com.tool.loganalyzer.Main</mainClass>
                         </manifest>
                     </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -1108,14 +1133,18 @@ public class Main {
 mvn clean package
 ```
 
+**生成的jar包：**
+- `target/log-file-analyzer-1.0.0-jar-with-dependencies.jar` ← **使用这个**（包含所有依赖）
+- `target/log-file-analyzer-1.0.0.jar` ← 不包含依赖，不能直接运行
+
 ### 2. 基本使用
 
 ```bash
 # 分析日志目录
-java -jar target/log-file-analyzer-1.0.0.jar analyze D:/logs/finance
+java -jar target/log-file-analyzer-1.0.0-jar-with-dependencies.jar analyze D:/logs/finance
 
 # 使用多线程加速
-java -jar target/log-file-analyzer-1.0.0.jar analyze D:/logs/finance --threads 8
+java -jar target/log-file-analyzer-1.0.0-jar-with-dependencies.jar analyze D:/logs/finance --threads 8
 ```
 
 ### 3. 查看报告
@@ -1145,3 +1174,53 @@ java -jar target/log-file-analyzer-1.0.0.jar analyze D:/logs/finance --threads 8
 **文档版本**：v1.0  
 **创建日期**：2026-05-12  
 **适用JDK版本**：JDK 8+
+
+---
+
+## 打包说明
+
+### 为什么需要 jar-with-dependencies？
+
+**问题：** 默认的 `maven-jar-plugin` 只会打包你自己写的代码，不会包含依赖（如POI、Commons CSV等）。
+
+**后果：** 运行时会报错 `ClassNotFoundException` 或 `NoClassDefFoundError`。
+
+**解决方案：** 使用 `maven-assembly-plugin` 生成 fat jar（包含所有依赖的jar包）。
+
+### 生成的两个jar包对比
+
+| jar包名称 | 大小 | 包含依赖 | 能否直接运行 |
+|----------|------|---------|------------|
+| `log-file-analyzer-1.0.0.jar` | ~50KB | ❌ 否 | ❌ 不能 |
+| `log-file-analyzer-1.0.0-jar-with-dependencies.jar` | ~15MB | ✅ 是 | ✅ 能 |
+
+**始终使用带 `-jar-with-dependencies` 后缀的jar包！**
+
+### 其他打包方式（可选）
+
+如果你想用 `maven-shade-plugin`（另一种流行的打包方式）：
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>3.2.4</version>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+            <configuration>
+                <transformers>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <mainClass>com.tool.loganalyzer.Main</mainClass>
+                    </transformer>
+                </transformers>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+这种方式生成的jar包名称更简洁：`log-file-analyzer-1.0.0.jar`（但已经包含了依赖）。
