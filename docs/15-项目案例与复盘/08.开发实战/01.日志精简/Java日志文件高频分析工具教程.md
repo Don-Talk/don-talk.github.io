@@ -144,19 +144,21 @@ public class LogParser {
     private static final DateTimeFormatter DATE_FORMAT = 
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     
-    // 常见日志格式正则（适配带 MDC 字段的 log4j2 格式）
-    // 格式示例: 2024-05-12 10:30:45.123 traceId reqId PtxId path vname main INFO c.f.S - message
-    private static final Pattern LOG_PATTERN = Pattern.compile(
+    // 1. 用于提取 JSON 中 message 字段的正则
+    private static final Pattern JSON_MESSAGE_PATTERN = Pattern.compile(
+        "\"message\"\\s*:\\s*\"(.*)\"\\s*\\}"
+    );
+
+    // 2. 用于解析 message 内部真实日志的正则
+    // 格式示例: 2026-05-15 17:35:04.811 T-xxx IP path LEVEL ClassName - Message
+    private static final Pattern REAL_LOG_PATTERN = Pattern.compile(
         "(\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}:\\d{2}\\.\\d{3})\\s+" + // 时间
-        "(\\S+)\\s+" +      // traceId
-        "(\\S+)\\s+" +      // reqId
-        "(\\S+)\\s+" +      // PtxId
-        "(\\S+)\\s+" +      // path
-        "(\\S+)\\s+" +      // vname
-        "(\\S+)\\s+" +      // 线程名 (%t)
+        "(\\S+)\\s+" +      // TraceId (作为线程统计)
+        "(\\S+)\\s+" +      // IP 地址
+        "(\\S+)\\s+" +      // 服务名/路径
         "(DEBUG|INFO|WARN|ERROR)\\s+" + // 级别
-        "([\\w.$]+)\\s+-\\s+" + // Logger (%logger{1.})
-        "(.*)"              // 消息
+        "([\\w.$]+)\\s+-\\s+" + // 类名
+        "(.*)"              // 消息内容
     );
     
     /**
@@ -179,25 +181,34 @@ public class LogParser {
     }
     
     /**
-     * 解析单行日志
+     * 解析单行日志（双层解析：先解 JSON，再解日志文本）
      */
     public LogEntry parseLine(String line) {
         if (line == null || line.trim().isEmpty()) {
             return null;
         }
         
-        Matcher matcher = LOG_PATTERN.matcher(line);
-        if (!matcher.matches()) {
+        // 第一步：尝试从 JSON 中提取 message
+        String realLogContent = line;
+        Matcher jsonMatcher = JSON_MESSAGE_PATTERN.matcher(line);
+        if (jsonMatcher.find()) {
+            realLogContent = jsonMatcher.group(1);
+            // 处理可能的转义字符
+            realLogContent = realLogContent.replace("\\\"", "\"");
+        }
+
+        // 第二步：解析真实的日志内容
+        Matcher logMatcher = REAL_LOG_PATTERN.matcher(realLogContent);
+        if (!logMatcher.matches()) {
             return null;
         }
         
         LogEntry entry = new LogEntry();
-        entry.timestamp = LocalDateTime.parse(matcher.group(1), DATE_FORMAT);
-        // 注意：由于增加了 MDC 字段，分组索引发生了变化
-        entry.thread = matcher.group(7); 
-        entry.level = matcher.group(8);
-        entry.className = matcher.group(9);
-        entry.message = matcher.group(10);
+        entry.timestamp = LocalDateTime.parse(logMatcher.group(1), DATE_FORMAT);
+        entry.thread = logMatcher.group(2); // TraceId 暂存于 thread 字段进行统计
+        entry.level = logMatcher.group(5);
+        entry.className = logMatcher.group(6);
+        entry.message = logMatcher.group(7);
         entry.template = extractTemplate(entry.message);
         
         return entry;
