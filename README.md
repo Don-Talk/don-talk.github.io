@@ -51,6 +51,26 @@
 
 📌 **特点**：即拷即用、循序渐进、实战导向、最佳实践
 
+#### Hibernate 完整教程（2026-05-19）
+
+✅ **13 篇系统化教程**，从入门到企业级应用：
+
+1. [Hibernate 入门基础](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/01.Hibernate入门基础.md) - ORM 思想、环境搭建
+2. [Hibernate 核心配置详解](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/02.Hibernate核心配置详解.md) - hibernate.cfg.xml、连接池
+3. [Hibernate 实体映射](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/03.Hibernate实体映射.md) - @Entity、主键策略、字段映射
+4. [Hibernate CRUD 操作](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/04.Hibernate-CRUD操作.md) - save、get、update、delete
+5. [HQL 查询语言](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/05.HQL查询语言.md) - HQL 语法、条件查询、分页
+6. [Criteria API 查询](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/06.Criteria-API查询.md) - 类型安全查询、动态条件
+7. [Hibernate 关联映射](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/07.Hibernate关联映射.md) - 一对一、一对多、多对多
+8. [Hibernate 事务管理](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/08.Hibernate事务管理.md) - ACID、锁机制、并发控制
+9. [Hibernate 缓存机制](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/09.Hibernate缓存机制.md) - 一级缓存、二级缓存、Redis
+10. [Hibernate 高级特性](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/10.Hibernate高级特性.md) - 拦截器、审计、批量操作
+11. [Hibernate 与 Spring Boot 集成](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/11.Hibernate与Spring-Boot集成.md) - Spring Data JPA
+12. [Hibernate 性能优化](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/12.Hibernate性能优化.md) - N+1 问题、SQL 优化
+13. [Hibernate 实战项目案例](docs/02-数据库与持久化/03-ORM%20框架/02-Hibernate/13.Hibernate实战项目案例.md) - 电商系统、博客系统
+
+📌 **特点**：对比 MyBatis 学习、JPA 规范、Spring Data JPA 集成
+
 ## 🚀 快速开始
 
 ### 环境要求
