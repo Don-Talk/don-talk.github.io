@@ -11,7 +11,7 @@ actions:
     type: primary
 
   - text: 项目案例
-    link: /15-项目案例与复盘/
+    link: /08-项目案例与复盘/
 
 features:
   - title: Java 核心
@@ -42,7 +42,7 @@ features:
   - title: AI 与智能应用
     icon: robot
     details: Spring AI、LangChain4j、大模型接入与应用
-    link: /17-AI 与智能应用/
+    link: /10-AI 与智能应用/
 
 copyright: false
 footer: MIT License | Copyright © 2026 DonTalk

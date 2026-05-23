@@ -48,12 +48,13 @@ export default defineUserConfig({
           { text: "Web 框架", icon: "code", link: "/03-Web与微服务框架/" },
           { text: "工程化", icon: "tools", link: "/04-工程化与生产实践/" },
           { text: "分布式架构", icon: "network-wired", link: "/05-分布式系统与架构/" },
-          { text: "性能优化", icon: "tachometer-alt", link: "/06-性能优化与调优/" },
-          { text: "云原生", icon: "cloud", link: "/08-云原生与容器化/" },
-          { text: "AI 应用", icon: "robot", link: "/17-AI 与智能应用/" },
+          { text: "云原生", icon: "cloud", link: "/06-云原生与容器化/" },
+          { text: "消息队列", icon: "envelope", link: "/07-消息队列与异步/" },
+          { text: "网络协议", icon: "exchange-alt", link: "/09-网络通信与协议/" },
+          { text: "AI 应用", icon: "robot", link: "/10-AI 与智能应用/" },
         ]
       },
-      { text: "项目案例", icon: "briefcase", link: "/15-项目案例与复盘/" },
+      { text: "项目案例", icon: "briefcase", link: "/08-项目案例与复盘/" },
       { text: "标签", icon: "tags", link: "/tag/" },
     ],
     

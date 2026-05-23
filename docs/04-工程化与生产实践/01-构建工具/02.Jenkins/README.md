@@ -113,7 +113,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - [GitLab CI/CD](../GitLab/)
 - [GitHub Actions](../GitHub-Actions/)
 - [Docker Compose](../../02-版本控制与CICD\ 流水线/)
-- [Kubernetes 部署](../../../08-云原生与容器化/)
+- [Kubernetes 部署](../../../06-云原生与容器化/)
 
 ---
 
