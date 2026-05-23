@@ -1,3 +1,14 @@
+---
+title: Java 语言核心
+index: true
+icon: java
+category:
+  - Java
+tag:
+  - 后端
+  - 编程语言
+---
+
 # Java 语言核心
 
 > Java 核心技术知识体系，从入门到精通
