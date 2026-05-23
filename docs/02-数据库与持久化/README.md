@@ -1,15 +1,3 @@
----
-title: 数据库与持久化
-index: true
-icon: database
-category:
-  - 数据库
-tag:
-  - MySQL
-  - Redis
-  - ORM
----
-
 # 数据库与持久化
 
 > 关系型数据库、NoSQL 数据库和 ORM 框架的完整知识体系
