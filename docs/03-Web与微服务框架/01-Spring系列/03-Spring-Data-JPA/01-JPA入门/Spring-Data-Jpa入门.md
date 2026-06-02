@@ -16,7 +16,7 @@ JDBC是Java语言定义的一套标准，规范了客户端程序访问关系数
 
 爱大一统的Java又出手了，Java针对ORM提出了JPA，JPA 本质上是一种 ORM 规范，不是 ORM 框架，只是定制了一些规范，提供了一些编程的 API 接口，具体实现由 ORM 厂商实现，如Hiernate、Eclipselink等都是JAP的具体实现，主要有：
 
-![img](imgs/1.png) 
+![img](assets/1.png) 
 
  
 
@@ -50,7 +50,7 @@ JPA主要包括Statix Named Query、Criteria Query API两部分（Query包含sel
 
 关系图：
 
-![img](imgs/2.png)
+![img](assets/2.png)
 
  
 
@@ -58,7 +58,7 @@ JPA主要包括Statix Named Query、Criteria Query API两部分（Query包含sel
 
 关系图：
 
-![img](imgs/3.png)
+![img](assets/3.png)
 
 通过Repository来支持上述功能，默认提供的几种Repository已经满足了绝大多数需求：
 
@@ -283,7 +283,7 @@ optional 表示该属性是否允许为 null，默认为 true
 
 以下是基本类型的映射：
 
-![img](imgs/4.png)
+![img](assets/4.png)
 
 对于非基本类型的属性，其映射：
 
@@ -633,7 +633,7 @@ public interface IAdminInfo{
 <!-- @vue-ignore -->
 若是查询多个字段则返回时默认将这些字段包装为Object[]、若返回有多条记录则包装成List&lt;Object[]&gt;，若只查询一个字段则不用数组而是直接用该字段。示例：
 
-![img](imgs/5.png)
+![img](assets/5.png)
 
  
 
@@ -835,7 +835,7 @@ private UserEntity userByUserId;
 
 基于这两种场景，各注解使用时的组合及效果如下：
 
-![img](imgs/6.png)
+![img](assets/6.png)
 
 说明：
 
@@ -1547,7 +1547,7 @@ SQL层面：查询语句都得加 isDelete=N，比较繁杂，特别是连表操
 
 ### EntityManager
 
-![img](imgs/7.png)
+![img](assets/7.png)
 
 EntityManager定义了面向Object Model的各种操作的API接口，具体实现由各数据库厂商来提供。
 
@@ -1563,7 +1563,7 @@ Entity的生命周期由**EntityManager**管理，其生命周期在persistence 
 
 Entity生命周期的四个状态：new、managed、detached、removed。其间转换关系如下：
 
-![img](imgs/8.png)
+![img](assets/8.png)
 
 Entity生命周期的四个基本操作（CRUD）：（更多详情可参阅：https://en.wikibooks.org/wiki/Java_Persistence/Persisting、https://vladmihalcea.com/a-beginners-guide-to-jpa-hibernate-entity-state-transitions/、https://vladmihalcea.com/jpa-persist-and-merge/）
 
