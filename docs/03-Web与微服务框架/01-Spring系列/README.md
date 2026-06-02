@@ -28,19 +28,19 @@ graph LR
 - [03.DI依赖注入实战](./01-Spring-Framework核心/01-快速入门/03.DI依赖注入实战.md) - 注入方式、自动装配、集合注入
 
 #### 02-Bean管理
-- 待补充: Bean生命周期详解
-- 待补充: Bean作用域深入理解
-- 待补充: FactoryBean高级用法
+- [01.Bean生命周期与作用域](./01-Spring-Framework核心/02-Bean管理/01.Bean生命周期与作用域.md) - Bean生命周期7个阶段、5种作用域、FactoryBean高级用法
 
 #### 03-AOP与事务
-- 待补充: AOP核心概念
-- 待补充: AspectJ注解开发
-- 待补充: 声明式事务管理
+- [01.AOP核心概念与实战](./01-Spring-Framework核心/03-AOP与事务/01.AOP核心概念与实战.md) - AOP概念、通知类型、切入点表达式、AspectJ注解开发
+- [02.声明式事务管理](./01-Spring-Framework核心/03-AOP与事务/02.声明式事务管理.md) - @Transactional、传播行为、隔离级别、事务回滚
 
 #### 04-Spring-MVC-WEB开发
 - [01.MVC架构原理](./01-Spring-Framework核心/04-Spring-MVC-WEB开发/01.MVC架构原理.md) - DispatcherServlet、请求映射、参数绑定
 - [02.RESTful-API设计](./01-Spring-Framework核心/04-Spring-MVC-WEB开发/02.RESTful-API设计.md) - REST规范、统一响应、异常处理
 - [03.拦截器与高级特性](./01-Spring-Framework核心/04-Spring-MVC-WEB开发/03.拦截器与高级特性.md) - 拦截器配置、文件上传下载、CORS跨域
+
+#### 05-事件驱动模型
+- [01.Spring事件驱动模型](./01-Spring-Framework核心/05-事件驱动模型/01.Spring事件驱动模型.md) - ApplicationEvent、监听器、异步事件、订单支付实战
 
 ---
 
@@ -77,6 +77,9 @@ graph LR
 
 #### 03-高级特性
 - [01.高级查询与审计](./03-Spring-Data-JPA/03-高级特性/01.高级查询与审计.md) - Specification动态查询、QBE、投影、审计功能、乐观锁
+
+#### 04-缓存配置
+- [01.JPA二级缓存配置](./03-Spring-Data-JPA/04-缓存配置/01.JPA二级缓存配置.md) - Ehcache/Redis配置、缓存策略、性能优化
 
 ---
 
@@ -115,14 +118,14 @@ graph LR
 - ✅ 实体关系映射(一对一、一对多、多对多)
 - ✅ Specification动态查询
 - ✅ 投影和审计功能
-- ⏳ 二级缓存配置
+- ✅ 二级缓存配置(Ehcache/Redis)
 
 ### Spring Framework核心能力
 - ✅ IOC/DI依赖注入
 - ✅ AOP面向切面编程
 - ✅ 声明式事务管理
 - ✅ Bean生命周期与作用域
-- ⏳ 事件驱动模型
+- ✅ 事件驱动模型(ApplicationEvent)
 
 ### Spring MVC Web开发
 - ✅ RESTful API设计
@@ -185,7 +188,10 @@ graph LR
   - ✅ 新增Spring Security安全框架(认证授权、JWT、RBAC)
   - ✅ 新增Spring Boot核心模块(Starter机制、配置管理、MyBatis-Plus、Actuator监控)
   - ✅ 新增Bean管理与AOP事务模块(生命周期、作用域、AOP实战、声明式事务)
-  - ⏳ 待补充:综合实战项目(博客系统/电商系统)
+  - ✅ 新增Spring事件驱动模型(ApplicationEvent、监听器、异步事件)
+  - ✅ 新增JPA二级缓存配置(Ehcache、Redis、缓存策略)
+  - ✅ 完成博客系统后端开发(9个文档、35个API、7263+行代码)
+  - ⏳ 待补充: 前端Vue项目开发
 
 ---
 
