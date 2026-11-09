@@ -53,6 +53,7 @@ export default defineUserConfig({
           { text: "消息队列", icon: "envelope", link: "/07-消息队列与异步/" },
           { text: "网络协议", icon: "exchange-alt", link: "/09-网络通信与协议/" },
           { text: "AI 应用", icon: "robot", link: "/10-AI 与智能应用/" },
+          { text: "数据分析", icon: "chart-line", link: "/11-数据分析/" },
         ]
       },
       { text: "项目案例", icon: "briefcase", link: "/08-项目案例与复盘/" },

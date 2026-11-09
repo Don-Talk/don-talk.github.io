@@ -44,6 +44,11 @@ features:
     details: Spring AI、LangChain4j、大模型接入与应用
     link: /10-AI 与智能应用/
 
+  - title: 数据分析
+    icon: chart-line
+    details: 趋势测算、数据处理与分析工具
+    link: /11-数据分析/
+
 copyright: false
 footer: MIT License | Copyright © 2026 DonTalk
 ---
