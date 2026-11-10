@@ -6,33 +6,89 @@
     <title>数值推算工具</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #f7f7f7;
+            --card-bg: #fff;
+            --text: #333;
+            --text-secondary: #666;
+            --text-muted: #999;
+            --border: #e5e5e5;
+            --input-border: #ddd;
+            --btn-bg: #555;
+            --btn-hover: #444;
+            --btn-secondary-bg: #e0e0e0;
+            --btn-secondary-text: #555;
+            --result-bg: #fafafa;
+            --warn-bg: #fffdf5;
+            --warn-border: #e6b800;
+            --warn-text: #c59a00;
+        }
+
+        body.dark {
+            --bg: #1a1a1a;
+            --card-bg: #2a2a2a;
+            --text: #e0e0e0;
+            --text-secondary: #aaa;
+            --text-muted: #777;
+            --border: #3a3a3a;
+            --input-border: #444;
+            --btn-bg: #666;
+            --btn-hover: #777;
+            --btn-secondary-bg: #3a3a3a;
+            --btn-secondary-text: #ccc;
+            --result-bg: #222;
+            --warn-bg: #2a2500;
+            --warn-border: #b38f00;
+            --warn-text: #d4a800;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: #f7f7f7;
-            color: #333;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.5;
             padding: 24px 16px;
             max-width: 640px;
             margin: 0 auto;
+            transition: background 0.2s, color 0.2s;
         }
         h1 {
             font-size: 18px;
             font-weight: 500;
-            color: #555;
-            margin-bottom: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
             text-align: center;
+            position: relative;
+        }
+        .theme-toggle {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .theme-toggle:hover {
+            color: var(--text-secondary);
         }
         .card {
-            background: #fff;
-            border: 1px solid #e5e5e5;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
             border-radius: 6px;
             padding: 20px;
             margin-bottom: 20px;
+            transition: background 0.2s, border-color 0.2s;
         }
         label {
             display: block;
             font-size: 13px;
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 4px;
         }
         input[type="text"],
@@ -41,23 +97,23 @@
         select {
             width: 100%;
             padding: 8px 10px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--input-border);
             border-radius: 4px;
             font-size: 14px;
-            background: #fff;
-            color: #333;
+            background: var(--card-bg);
+            color: var(--text);
         }
         input:focus, select:focus {
             outline: none;
-            border-color: #aaa;
+            border-color: #888;
         }
         input.warn {
-            border-color: #e6b800;
-            background: #fffdf5;
+            border-color: var(--warn-border);
+            background: var(--warn-bg);
         }
         .tip {
             font-size: 12px;
-            color: #c59a00;
+            color: var(--warn-text);
             margin-top: 3px;
             display: none;
         }
@@ -76,21 +132,18 @@
         .btn {
             flex: 1;
             padding: 10px;
-            background: #555;
+            background: var(--btn-bg);
             color: #fff;
             border: none;
             border-radius: 4px;
             font-size: 14px;
             cursor: pointer;
         }
-        .btn:hover { background: #444; }
-        .btn:active { background: #333; }
+        .btn:hover { background: var(--btn-hover); }
         .btn-secondary {
-            background: #e0e0e0;
-            color: #555;
+            background: var(--btn-secondary-bg);
+            color: var(--btn-secondary-text);
         }
-        .btn-secondary:hover { background: #d0d0d0; }
-        .btn-secondary:active { background: #c0c0c0; }
         .result-box {
             text-align: center;
         }
@@ -101,7 +154,7 @@
         }
         .result-info {
             font-size: 13px;
-            color: #666;
+            color: var(--text-secondary);
             line-height: 1.7;
         }
         .copy-btn {
@@ -109,24 +162,30 @@
             margin-top: 12px;
             padding: 5px 14px;
             font-size: 13px;
-            background: #eee;
+            background: var(--btn-secondary-bg);
             border: none;
             border-radius: 4px;
-            color: #555;
+            color: var(--btn-secondary-text);
             cursor: pointer;
         }
-        .copy-btn:hover { background: #e0e0e0; }
         .history-item {
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border);
             font-size: 13px;
-            color: #555;
+            color: var(--text);
             position: relative;
             padding-right: 28px;
+            cursor: pointer;
+        }
+        .history-item:hover {
+            background: rgba(0,0,0,0.03);
+        }
+        body.dark .history-item:hover {
+            background: rgba(255,255,255,0.03);
         }
         .history-item:last-child { border-bottom: none; }
         .history-item .meta {
-            color: #999;
+            color: var(--text-muted);
             font-size: 12px;
             margin-top: 2px;
         }
@@ -136,39 +195,42 @@
             top: 10px;
             background: none;
             border: none;
-            color: #ccc;
+            color: var(--text-muted);
             font-size: 16px;
             cursor: pointer;
             padding: 0 4px;
             line-height: 1;
         }
-        .history-item .del:hover { color: #999; }
+        .history-item .del:hover { color: var(--text-secondary); }
         .empty {
-            color: #999;
+            color: var(--text-muted);
             font-size: 13px;
             text-align: center;
             padding: 12px 0;
         }
         .section-title {
             font-size: 14px;
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 12px;
             font-weight: 500;
         }
         .clear-btn {
             background: none;
             border: none;
-            color: #999;
+            color: var(--text-muted);
             font-size: 12px;
             cursor: pointer;
             float: right;
             margin-top: -2px;
         }
-        .clear-btn:hover { color: #666; }
+        .clear-btn:hover { color: var(--text-secondary); }
     </style>
 </head>
 <body>
-<h1>数值推算工具</h1>
+<h1>
+    数值推算工具
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">深色</button>
+</h1>
 
 <div class="card">
     <div class="row">
@@ -249,6 +311,20 @@
 </div>
 
 <script>
+    // ========== 主题切换 ==========
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        document.getElementById('themeBtn').textContent = isDark ? '浅色' : '深色';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+
+    // 初始化主题
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('themeBtn').textContent = '浅色';
+    }
+
     // ========== 交易日相关 ==========
     const HOLIDAYS = [
         // 2026
@@ -293,7 +369,6 @@
 
     function tradingDayDiff(dateA, dateB) {
         if (dateA.getTime() === dateB.getTime()) return 0;
-
         let sign = 1;
         let start = dateA;
         let end = dateB;
@@ -302,7 +377,6 @@
             start = dateB;
             end = dateA;
         }
-
         let count = 0;
         const cur = new Date(start);
         while (cur < end) {
@@ -363,7 +437,6 @@
         const diff1t = tradingDayDiff(d1, dt);
         const result = value1 + slope * diff1t;
 
-        // 显示结果 + 辅助信息
         document.getElementById('resultCard').style.display = 'block';
         document.getElementById('resultValue').textContent = result.toFixed(3);
         document.getElementById('resultInfo').innerHTML = `
@@ -371,7 +444,6 @@
         日均变化：${slope >= 0 ? '+' : ''}${slope.toFixed(4)}
       `;
 
-        // 保存历史
         saveHistory({
             name,
             type,
@@ -409,7 +481,6 @@
         setTodayAsTarget();
         document.getElementById('resultCard').style.display = 'none';
 
-        // 清除警告样式
         ['date1', 'date2', 'targetDate'].forEach(id => {
             document.getElementById(id).classList.remove('warn');
         });
@@ -426,6 +497,24 @@
         const d = String(today.getDate()).padStart(2, '0');
         document.getElementById('targetDate').value = `${y}-${m}-${d}`;
         checkDate('targetDate');
+    }
+
+    // ========== 历史记录回填 ==========
+    function fillForm(item) {
+        document.getElementById('name').value = item.name === '未命名' ? '' : item.name;
+        document.getElementById('type').value = item.type;
+        document.getElementById('date1').value = item.date1;
+        document.getElementById('value1').value = item.value1;
+        document.getElementById('date2').value = item.date2;
+        document.getElementById('value2').value = item.value2;
+        document.getElementById('targetDate').value = item.target;
+
+        checkDate('date1');
+        checkDate('date2');
+        checkDate('targetDate');
+
+        // 自动重新计算
+        calculate();
     }
 
     // ========== 历史记录 ==========
@@ -448,7 +537,8 @@
         renderHistory();
     }
 
-    function deleteHistoryItem(index) {
+    function deleteHistoryItem(index, event) {
+        event.stopPropagation(); // 防止触发回填
         let list = getHistory();
         list.splice(index, 1);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
@@ -470,10 +560,10 @@
             return;
         }
         container.innerHTML = list.map((item, index) => `
-        <div class="history-item">
+        <div class="history-item" onclick='fillForm(${JSON.stringify(item)})'>
           <div>${item.name} · ${item.type} · 结果 ${item.result}</div>
           <div class="meta">${item.date1}(${item.value1}) → ${item.date2}(${item.value2}) → ${item.target}　${item.time}</div>
-          <button class="del" onclick="deleteHistoryItem(${index})" title="删除">×</button>
+          <button class="del" onclick="deleteHistoryItem(${index}, event)" title="删除">×</button>
         </div>
       `).join('');
     }
