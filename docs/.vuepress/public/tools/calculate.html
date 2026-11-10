@@ -1,3 +1,59 @@
+跳至主要内容
+Ctrl+J
+
+创建一个 Bot
+
+
+
+
+股票趋势线计算小工具建议
+Grok
+
+工作了 2s
+把这个工具放到你的 GitHub Pages 很简单，按下面步骤操作即可。
+
+方法一：直接放在根目录（推荐，访问最方便）
+打开你的 GitHub 仓库：
+一般是 https://github.com/你的用户名/don-talk.github.io
+点击仓库里的 Add file → Create new file
+（或者如果你已经有 index.html，就直接点进去编辑）
+文件名填写：index.html
+（如果根目录已经有 index.html，可以改成 trend.html 或 calc.html，避免覆盖原来的首页）
+把我给你的完整 HTML 代码全部粘贴进去。
+拉到页面最下面，点击绿色的 Commit changes 按钮。
+等待大约 1 分钟，GitHub Pages 会自动更新。
+访问地址：
+
+如果文件名是 index.html：https://don-talk.github.io
+如果文件名是 trend.html：https://don-talk.github.io/trend.html
+方法二：放在子文件夹（更整洁，推荐）
+在仓库首页点击 Add file → Create new file
+文件名填写：tools/index.html
+（前面的 tools/ 会自动创建文件夹）
+粘贴完整代码 → Commit changes
+访问地址变成：
+https://don-talk.github.io/tools/
+或 https://don-talk.github.io/tools/index.html
+小提示
+上传后如果打不开，等 1–2 分钟再刷新，有时候 GitHub Pages 需要一点时间生效。
+以后想修改，直接在 GitHub 网页上编辑那个 HTML 文件，再 Commit 就行，非常方便。
+建议文件名用 calc.html 或 tools/index.html，这样不会影响你原来的主页。
+你现在仓库里根目录已经有哪些文件？我可以帮你判断用哪种方式最合适。
+
+你
+再帮我优化一下。
+1.目标日期默认今天。
+2.存最近二十条历史记录
+
+Grok
+
+工作了 2s
+已按你的要求优化，主要改动两处：
+
+目标日期默认今天
+历史记录保存最近 20 条
+直接使用下面的完整代码即可：
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -380,3 +436,557 @@
 </script>
 </body>
 </html>
+改动说明
+打开页面时，目标日期自动填入今天。
+点击「清空表单」后，目标日期也会重新回到今天。
+历史记录上限从 10 条改为 20 条。
+直接替换你之前的文件即可。
+
+你
+你还有什么功能建议吗？
+
+Grok
+
+工作了 7s
+有的，以下是我认为比较实用、且不破坏「简朴低调」风格的功能建议，按优先级排序：
+
+高优先级（强烈建议加）
+显示辅助信息
+两个基准点之间隔了多少个交易日
+斜率（每天涨/跌多少）
+这些信息对判断趋势强度很有帮助，而且用中性语言写即可（例如「间隔交易日」「日均变化」）
+一键复制结果
+计算结果旁边加一个小「复制」按钮，方便快速记下来或发到别处。
+快捷设置基准点日期
+在基准点日期旁边加几个小按钮，例如：
+「5个交易日前」
+「10个交易日前」
+「20个交易日前」
+点一下就自动填入对应的交易日，省去自己数日期的麻烦。
+中优先级（体验提升）
+目标日期快捷选项
+「今天」「下一个交易日」「5个交易日后」等按钮，减少手动选日期。
+历史记录支持删除单条
+目前只能全部清空，加一个每条记录后面的「×」会更灵活。
+简单的数据校验提示
+如果选的日期是非交易日，给一个很轻的提示（例如日期框变淡黄色），但不阻止计算。
+低优先级（可选）
+导出历史记录
+一个「导出」按钮，把最近20条记录复制成文本或下载成简易文件。
+深色模式切换
+加一个很不起眼的开关，晚上用更舒服，而且依然保持低调。
+我的建议是优先做前 3 个，尤其是「显示间隔交易日 + 斜率」和「快捷交易日按钮」，对实际使用帮助最大，而且实现起来也不复杂。
+
+你想先加哪几个？告诉我后我直接帮你改代码。
+
+你
+显示辅助信息
+一键复制结果
+历史记录支持删除单条
+简单的数据校验提示
+简单的数据校验提示
+这些都帮我做了吧
+
+Grok
+
+工作了 3s
+已把你要求的四个功能全部加上，下面是更新后的完整代码：
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数值推算工具</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f7f7f7;
+            color: #333;
+            line-height: 1.5;
+            padding: 24px 16px;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background: #fff;
+            color: #333;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #aaa;
+        }
+        input.warn {
+            border-color: #e6b800;
+            background: #fffdf5;
+        }
+        .tip {
+            font-size: 12px;
+            color: #c59a00;
+            margin-top: 3px;
+            display: none;
+        }
+        .tip.show { display: block; }
+        .row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .row > div { flex: 1; }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .btn {
+            flex: 1;
+            padding: 10px;
+            background: #555;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #444; }
+        .btn:active { background: #333; }
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #555;
+        }
+        .btn-secondary:hover { background: #d0d0d0; }
+        .btn-secondary:active { background: #c0c0c0; }
+        .result-box {
+            text-align: center;
+        }
+        .result-main {
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .result-info {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.7;
+        }
+        .copy-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 5px 14px;
+            font-size: 13px;
+            background: #eee;
+            border: none;
+            border-radius: 4px;
+            color: #555;
+            cursor: pointer;
+        }
+        .copy-btn:hover { background: #e0e0e0; }
+        .history-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+            color: #555;
+            position: relative;
+            padding-right: 28px;
+        }
+        .history-item:last-child { border-bottom: none; }
+        .history-item .meta {
+            color: #999;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+        .history-item .del {
+            position: absolute;
+            right: 0;
+            top: 10px;
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+        .history-item .del:hover { color: #999; }
+        .empty {
+            color: #999;
+            font-size: 13px;
+            text-align: center;
+            padding: 12px 0;
+        }
+        .section-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 12px;
+            cursor: pointer;
+            float: right;
+            margin-top: -2px;
+        }
+        .clear-btn:hover { color: #666; }
+    </style>
+</head>
+<body>
+<h1>数值推算工具</h1>
+
+<div class="card">
+    <div class="row">
+        <div>
+            <label>名称</label>
+            <input type="text" id="name" placeholder="可选">
+        </div>
+        <div>
+            <label>计算类型</label>
+            <select id="type">
+                <option value="短期上升">短期上升</option>
+                <option value="短期下降">短期下降</option>
+                <option value="中期上升">中期上升</option>
+                <option value="中期下降">中期下降</option>
+                <option value="长期上升">长期上升</option>
+                <option value="长期下降">长期下降</option>
+                <option value="自定义">自定义</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            <label>基准点1 日期</label>
+            <input type="date" id="date1" onchange="checkDate('date1')">
+            <div class="tip" id="tip1">非交易日</div>
+        </div>
+        <div>
+            <label>基准点1 数值</label>
+            <input type="number" id="value1" step="any" placeholder="0.00">
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            <label>基准点2 日期</label>
+            <input type="date" id="date2" onchange="checkDate('date2')">
+            <div class="tip" id="tip2">非交易日</div>
+        </div>
+        <div>
+            <label>基准点2 数值</label>
+            <input type="number" id="value2" step="any" placeholder="0.00">
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            <label>目标日期</label>
+            <input type="date" id="targetDate" onchange="checkDate('targetDate')">
+            <div class="tip" id="tipTarget">非交易日</div>
+        </div>
+        <div></div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn" onclick="calculate()">计算</button>
+        <button class="btn btn-secondary" onclick="clearForm()">清空表单</button>
+    </div>
+</div>
+
+<div class="card" id="resultCard" style="display:none;">
+    <div class="section-title">估算结果</div>
+    <div class="result-box">
+        <div class="result-main" id="resultValue"></div>
+        <div class="result-info" id="resultInfo"></div>
+        <button class="copy-btn" onclick="copyResult()">复制结果</button>
+    </div>
+</div>
+
+<div class="card">
+    <div class="section-title">
+        最近记录
+        <button class="clear-btn" onclick="clearHistory()">清空</button>
+    </div>
+    <div id="historyList">
+        <div class="empty">暂无记录</div>
+    </div>
+</div>
+
+<script>
+    // ========== 交易日相关 ==========
+    const HOLIDAYS = [
+        // 2026
+        ['2026-01-01', '2026-01-03'],
+        ['2026-02-15', '2026-02-23'],
+        ['2026-04-04', '2026-04-06'],
+        ['2026-05-01', '2026-05-05'],
+        ['2026-06-19', '2026-06-21'],
+        ['2026-09-25', '2026-09-27'],
+        ['2026-10-01', '2026-10-07'],
+        // 2027 预测
+        ['2027-01-01', '2027-01-03'],
+        ['2027-02-05', '2027-02-13'],
+        ['2027-04-03', '2027-04-05'],
+        ['2027-05-01', '2027-05-05'],
+        ['2027-06-09', '2027-06-09'],
+        ['2027-09-15', '2027-09-15'],
+        ['2027-10-01', '2027-10-07']
+    ];
+
+    function parseDate(str) {
+        const [y, m, d] = str.split('-').map(Number);
+        return new Date(y, m - 1, d);
+    }
+
+    function isHoliday(date) {
+        const t = date.getTime();
+        for (const [startStr, endStr] of HOLIDAYS) {
+            const start = parseDate(startStr).getTime();
+            const end = parseDate(endStr).getTime();
+            if (t >= start && t <= end) return true;
+        }
+        return false;
+    }
+
+    function isTradingDay(date) {
+        const day = date.getDay();
+        if (day === 0 || day === 6) return false;
+        if (isHoliday(date)) return false;
+        return true;
+    }
+
+    function tradingDayDiff(dateA, dateB) {
+        if (dateA.getTime() === dateB.getTime()) return 0;
+
+        let sign = 1;
+        let start = dateA;
+        let end = dateB;
+        if (dateB < dateA) {
+            sign = -1;
+            start = dateB;
+            end = dateA;
+        }
+
+        let count = 0;
+        const cur = new Date(start);
+        while (cur < end) {
+            cur.setDate(cur.getDate() + 1);
+            if (isTradingDay(cur)) count++;
+        }
+        return count * sign;
+    }
+
+    // ========== 日期校验提示 ==========
+    function checkDate(id) {
+        const input = document.getElementById(id);
+        const tipId = id === 'date1' ? 'tip1' : (id === 'date2' ? 'tip2' : 'tipTarget');
+        const tip = document.getElementById(tipId);
+
+        if (!input.value) {
+            input.classList.remove('warn');
+            tip.classList.remove('show');
+            return;
+        }
+
+        const d = parseDate(input.value);
+        if (!isTradingDay(d)) {
+            input.classList.add('warn');
+            tip.classList.add('show');
+        } else {
+            input.classList.remove('warn');
+            tip.classList.remove('show');
+        }
+    }
+
+    // ========== 计算逻辑 ==========
+    function calculate() {
+        const name = document.getElementById('name').value.trim() || '未命名';
+        const type = document.getElementById('type').value;
+        const date1Str = document.getElementById('date1').value;
+        const value1 = parseFloat(document.getElementById('value1').value);
+        const date2Str = document.getElementById('date2').value;
+        const value2 = parseFloat(document.getElementById('value2').value);
+        const targetStr = document.getElementById('targetDate').value;
+
+        if (!date1Str || !date2Str || !targetStr || isNaN(value1) || isNaN(value2)) {
+            alert('请完整填写基准点日期、数值和目标日期');
+            return;
+        }
+
+        const d1 = parseDate(date1Str);
+        const d2 = parseDate(date2Str);
+        const dt = parseDate(targetStr);
+
+        const diff12 = tradingDayDiff(d1, d2);
+        if (diff12 === 0) {
+            alert('两个基准点必须是不同的交易日');
+            return;
+        }
+
+        const slope = (value2 - value1) / diff12;
+        const diff1t = tradingDayDiff(d1, dt);
+        const result = value1 + slope * diff1t;
+
+        // 显示结果 + 辅助信息
+        document.getElementById('resultCard').style.display = 'block';
+        document.getElementById('resultValue').textContent = result.toFixed(3);
+        document.getElementById('resultInfo').innerHTML = `
+        间隔交易日：${Math.abs(diff12)} 天<br>
+        日均变化：${slope >= 0 ? '+' : ''}${slope.toFixed(4)}
+      `;
+
+        // 保存历史
+        saveHistory({
+            name,
+            type,
+            date1: date1Str,
+            value1,
+            date2: date2Str,
+            value2,
+            target: targetStr,
+            result: result.toFixed(3),
+            time: new Date().toLocaleString('zh-CN')
+        });
+    }
+
+    // ========== 复制结果 ==========
+    function copyResult() {
+        const value = document.getElementById('resultValue').textContent;
+        const info = document.getElementById('resultInfo').innerText;
+        const text = `估算结果：${value}\n${info}`;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            const original = btn.textContent;
+            btn.textContent = '已复制';
+            setTimeout(() => btn.textContent = original, 1500);
+        });
+    }
+
+    // ========== 清空表单 ==========
+    function clearForm() {
+        document.getElementById('name').value = '';
+        document.getElementById('type').value = '短期上升';
+        document.getElementById('date1').value = '';
+        document.getElementById('value1').value = '';
+        document.getElementById('date2').value = '';
+        document.getElementById('value2').value = '';
+        setTodayAsTarget();
+        document.getElementById('resultCard').style.display = 'none';
+
+        // 清除警告样式
+        ['date1', 'date2', 'targetDate'].forEach(id => {
+            document.getElementById(id).classList.remove('warn');
+        });
+        ['tip1', 'tip2', 'tipTarget'].forEach(id => {
+            document.getElementById(id).classList.remove('show');
+        });
+    }
+
+    // ========== 设置目标日期为今天 ==========
+    function setTodayAsTarget() {
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth() + 1).padStart(2, '0');
+        const d = String(today.getDate()).padStart(2, '0');
+        document.getElementById('targetDate').value = `${y}-${m}-${d}`;
+        checkDate('targetDate');
+    }
+
+    // ========== 历史记录 ==========
+    const STORAGE_KEY = 'linear_calc_history';
+    const MAX_HISTORY = 20;
+
+    function getHistory() {
+        try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch {
+            return [];
+        }
+    }
+
+    function saveHistory(item) {
+        let list = getHistory();
+        list.unshift(item);
+        if (list.length > MAX_HISTORY) list = list.slice(0, MAX_HISTORY);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        renderHistory();
+    }
+
+    function deleteHistoryItem(index) {
+        let list = getHistory();
+        list.splice(index, 1);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        renderHistory();
+    }
+
+    function clearHistory() {
+        if (confirm('确定清空所有记录？')) {
+            localStorage.removeItem(STORAGE_KEY);
+            renderHistory();
+        }
+    }
+
+    function renderHistory() {
+        const list = getHistory();
+        const container = document.getElementById('historyList');
+        if (list.length === 0) {
+            container.innerHTML = '<div class="empty">暂无记录</div>';
+            return;
+        }
+        container.innerHTML = list.map((item, index) => `
+        <div class="history-item">
+          <div>${item.name} · ${item.type} · 结果 ${item.result}</div>
+          <div class="meta">${item.date1}(${item.value1}) → ${item.date2}(${item.value2}) → ${item.target}　${item.time}</div>
+          <button class="del" onclick="deleteHistoryItem(${index})" title="删除">×</button>
+        </div>
+      `).join('');
+    }
+
+    // 初始化
+    setTodayAsTarget();
+    renderHistory();
+</script>
+</body>
+</html>
+新增功能说明
+辅助信息：计算结果下方会显示「间隔交易日」和「日均变化」。
+一键复制：结果区域有「复制结果」按钮，点击后复制估算值和辅助信息。
+单条删除：每条历史记录右侧有「×」，可单独删除。
+数据校验提示：如果选择的日期是非交易日，输入框会变成淡黄色，并在下方显示「非交易日」提示（不阻止计算）。
+直接替换原文件即可使用。
+
+
+
+
+Grok 已完成回复
+股票趋势线计算小工具建议 - Grok
